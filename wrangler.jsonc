@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "srwebdevelopers",
+  "compatibility_date": "2026-04-03",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "sr portfolio"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
