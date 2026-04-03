@@ -584,188 +584,284 @@
       border-color: var(--gold);
     }
 
- /* ─── GALLERY — FIXED STYLES ─── */
-.gallery-section {
-  background: linear-gradient(180deg, var(--pink-lightest), var(--white));
-}
+    /* ═══════════════════════════════════════════
+       NEW GALLERY CAROUSEL — COMPLETE REDESIGN
+       ═══════════════════════════════════════════ */
+    .gallery-section {
+      background: var(--text-dark);
+      position: relative;
+      overflow: hidden;
+    }
 
-.gallery-slider-container {
-  max-width: 1100px;
-  margin: 0 auto;
-  position: relative;
-}
+    .gallery-section .section-tag {
+      color: var(--gold-light);
+    }
 
-/* Viewport - clips overflow */
-.gallery-viewport {
-  overflow: hidden;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  position: relative;
-}
+    .gallery-section .section-tag::before,
+    .gallery-section .section-tag::after {
+      background: rgba(201, 169, 110, 0.4);
+    }
 
-/* Slider track - holds all slides */
-.gallery-slider {
-  display: flex;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
-}
-
-/* Individual slide */
-.gallery-slide {
-  min-width: 100%;
-  flex-shrink: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-/* Before/After sides */
-.gallery-slide .ba-side {
-  position: relative;
-  overflow: hidden;
-  height: 450px;
-}
-
-.gallery-slide .ba-side img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Labels */
-.ba-label {
-  position: absolute;
-  bottom: 1.2rem;
-  left: 1.2rem;
-  padding: 0.4rem 1rem;
-  border-radius: var(--radius-xl);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-weight: 700;
-  backdrop-filter: blur(10px);
-  z-index: 2;
-}
-
-.ba-before .ba-label {
-  background: rgba(201, 169, 110, 0.85);
-  color: var(--white);
-}
-
-.ba-after .ba-label {
-  background: rgba(232, 145, 138, 0.85);
-  color: var(--white);
-}
-
-/* Caption */
-.gallery-caption {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.82rem;
-  color: var(--text-dark);
-  font-weight: 400;
-  z-index: 2;
-  box-shadow: var(--shadow-soft);
-}
-
-.gallery-caption strong {
-  color: var(--gold);
-}
-
-/* Navigation */
-.gallery-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.gallery-dots {
-  display: flex;
-  gap: 0.6rem;
-}
-
-.gallery-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--pink-mid);
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  opacity: 0.4;
-  padding: 0;
-}
-
-.gallery-dot.active {
-  opacity: 1;
-  background: var(--gold);
-  width: 32px;
-  border-radius: var(--radius-xl);
-}
-
-.gallery-dot:hover {
-  opacity: 0.7;
-}
-
-.gallery-arrow {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1.5px solid var(--gold-light);
-  background: var(--white);
-  color: var(--gold);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-soft);
-}
-
-.gallery-arrow:hover {
-  background: var(--gold);
-  color: var(--white);
-  border-color: var(--gold);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card);
-}
-
-.gallery-arrow:active {
-  transform: translateY(0);
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-  .gallery-slide {
-    grid-template-columns: 1fr;
-  }
-  
-  .gallery-slide .ba-side {
-    height: 300px;
-  }
-  
-  .gallery-nav {
-    gap: 1rem;
-  }
-  
-  .gallery-arrow {
-    width: 42px;
-    height: 42px;
-  }
-}
-
-    .gallery-arrow:hover {
-      background: var(--gold);
+    .gallery-section .section-header h2 {
       color: var(--white);
+    }
+
+    .gallery-section .section-header p {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Ambient glow behind carousel */
+    .gallery-section::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(201, 169, 110, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .carousel-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Main stage */
+    .carousel-stage {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.4);
+      aspect-ratio: 16 / 9;
+      background: #2a2020;
+    }
+
+    /* Each slide */
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.9s ease, transform 0.9s ease;
+      transform: scale(1.06);
+      will-change: opacity, transform;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+      transform: scale(1);
+      z-index: 2;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Gradient overlay on each slide */
+    .carousel-slide .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(61, 44, 44, 0.85) 0%,
+        rgba(61, 44, 44, 0.3) 40%,
+        transparent 70%
+      );
+      z-index: 1;
+    }
+
+    /* Content on slide */
+    .slide-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2.5rem 3rem;
+      z-index: 2;
+      transform: translateY(12px);
+      opacity: 0;
+      transition: all 0.7s ease 0.25s;
+    }
+
+    .carousel-slide.active .slide-content {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .slide-category {
+      display: inline-block;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+      margin-bottom: 0.6rem;
+      font-weight: 700;
+    }
+
+    .slide-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .slide-desc {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.65);
+      max-width: 500px;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* Counter badge */
+    .slide-counter {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 3;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(12px);
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-xl);
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .slide-counter .current-num {
+      color: var(--gold);
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+    }
+
+    /* Progress bar */
+    .carousel-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--pink-accent));
+      z-index: 10;
+      transition: width 0.1s linear;
+      border-radius: 0 2px 0 0;
+    }
+
+    /* Arrows */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      color: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      transition: all 0.35s ease;
+    }
+
+    .carousel-arrow:hover {
+      background: var(--gold);
       border-color: var(--gold);
+      transform: translateY(-50%) scale(1.08);
+      box-shadow: 0 6px 25px rgba(201, 169, 110, 0.4);
+    }
+
+    .carousel-arrow:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    .carousel-arrow.prev {
+      left: 1.2rem;
+    }
+
+    .carousel-arrow.next {
+      right: 1.2rem;
+    }
+
+    /* Dots */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.4s ease;
+      padding: 0;
+    }
+
+    .carousel-dot.active {
+      background: var(--gold);
+      width: 36px;
+      border-radius: var(--radius-xl);
+      box-shadow: 0 0 12px rgba(201, 169, 110, 0.4);
+    }
+
+    .carousel-dot:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    /* Thumbnail strip */
+    .carousel-thumbs {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .carousel-thumb {
+      width: 72px;
+      height: 50px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      opacity: 0.4;
+      transition: all 0.4s ease;
+      flex-shrink: 0;
+    }
+
+    .carousel-thumb.active {
+      opacity: 1;
+      border-color: var(--gold);
+      box-shadow: 0 4px 15px rgba(201, 169, 110, 0.3);
+    }
+
+    .carousel-thumb:hover:not(.active) {
+      opacity: 0.7;
+      transform: translateY(-2px);
+    }
+
+    .carousel-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     /* ─── TESTIMONIALS ─── */
@@ -1330,8 +1426,10 @@
       .hero-float-card-2 { right: 0; top: 1rem; }
       .booking-inner { grid-template-columns: 1fr; }
       .contact-grid { grid-template-columns: 1fr; }
-      .gallery-slide { grid-template-columns: 1fr; }
-      .gallery-slide .ba-side img { height: 300px; }
+      .carousel-stage { aspect-ratio: 4/3; }
+      .slide-content { padding: 1.5rem 2rem; }
+      .carousel-thumbs { gap: 0.5rem; }
+      .carousel-thumb { width: 56px; height: 40px; }
     }
 
     @media (max-width: 768px) {
@@ -1341,12 +1439,20 @@
       .testimonials-grid { grid-template-columns: 1fr; }
       section { padding: 4rem 1.2rem; }
       .form-row { grid-template-columns: 1fr; }
+      .carousel-arrow { width: 42px; height: 42px; font-size: 0.85rem; }
+      .carousel-arrow.prev { left: 0.6rem; }
+      .carousel-arrow.next { right: 0.6rem; }
+      .slide-content { padding: 1.2rem 1.5rem; }
+      .slide-desc { display: none; }
+      .carousel-thumbs { display: none; }
     }
 
     @media (max-width: 480px) {
       .hero h1 { font-size: 2.2rem; }
       .hero-float-card-2 { display: none; }
       .hero-image-wrap img { height: 380px; }
+      .carousel-stage { aspect-ratio: 3/4; border-radius: var(--radius-md); }
+      .slide-counter { top: 1rem; right: 1rem; font-size: 0.7rem; padding: 0.35rem 0.8rem; }
     }
   </style>
 </head>
@@ -1516,89 +1622,137 @@
     </div>
   </section>
 
-<!-- GALLERY — FIXED & ENHANCED -->
-<section class="gallery-section" id="gallery">
-  <div class="section-header fade-in">
-    <div class="section-tag">Real Results</div>
-    <h2>Before & After</h2>
-    <p>See the stunning transformations our clients love to share</p>
-  </div>
-  <div class="gallery-slider-container fade-in">
-    <!-- VIEWPORT -->
-    <div class="gallery-viewport">
-      <!-- TRACK -->
-      <div class="gallery-slider" id="gallerySlider">
+  <!-- ═══════════════════════════════════════
+       NEW GALLERY CAROUSEL
+       ═══════════════════════════════════════ -->
+  <section class="gallery-section" id="gallery">
+    <div class="section-header fade-in">
+      <div class="section-tag">Our Work</div>
+      <h2>The Lumière Experience</h2>
+      <p>A glimpse into the artistry and ambiance that defines us</p>
+    </div>
+
+    <div class="carousel-wrapper fade-in">
+      <!-- Stage -->
+      <div class="carousel-stage" id="carouselStage">
+
         <!-- Slide 1 -->
-        <div class="gallery-slide">
-          <div class="ba-side ba-before">
-            <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Before facial">
-            <div class="ba-label">Before</div>
+        <div class="carousel-slide active" data-index="0">
+          <img src="https://images.pexels.com/photos/3985329/pexels-photo-3985329.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Luxury facial treatment">
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-category">Facial Treatments</div>
+            <div class="slide-title">Radiance Rejuvenation Therapy</div>
+            <div class="slide-desc">Our signature facial combines gold-infused serums with microcurrent technology for an instantly luminous complexion.</div>
           </div>
-          <div class="ba-side ba-after">
-            <img src="https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=600" alt="After facial">
-            <div class="ba-label">After</div>
-            <div class="gallery-caption"><strong>Facial Rejuvenation</strong> — 4 sessions</div>
-          </div>
+          <div class="slide-counter"><span class="current-num">01</span> / 06</div>
         </div>
-        
+
         <!-- Slide 2 -->
-        <div class="gallery-slide">
-          <div class="ba-side ba-before">
-            <img src="https://images.pexels.com/photos/1680234/pexels-photo-1680234.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Before hair">
-            <div class="ba-label">Before</div>
+        <div class="carousel-slide" data-index="1">
+          <img src="https://images.pexels.com/photos/3993356/pexels-photo-3993356.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Hair coloring and styling">
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-category">Hair Studio</div>
+            <div class="slide-title">Sun-Kissed Balayage Artistry</div>
+            <div class="slide-desc">Hand-painted highlights blended seamlessly for that effortless, natural warmth that lasts for months.</div>
           </div>
-          <div class="ba-side ba-after">
-            <img src="https://images.pexels.com/photos/1520725/pexels-photo-1520725.jpeg?auto=compress&cs=tinysrgb&w=600" alt="After hair">
-            <div class="ba-label">After</div>
-            <div class="gallery-caption"><strong>Hair Balayage</strong> — Single session</div>
-          </div>
+          <div class="slide-counter"><span class="current-num">02</span> / 06</div>
         </div>
-        
+
         <!-- Slide 3 -->
-        <div class="gallery-slide">
-          <div class="ba-side ba-before">
-            <img src="https://images.pexels.com/photos/3993352/pexels-photo-3993352.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Before nails">
-            <div class="ba-label">Before</div>
+        <div class="carousel-slide" data-index="2">
+          <img src="https://images.pexels.com/photos/704815/pexels-photo-704815.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Nail art and manicure">
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-category">Nail Bar</div>
+            <div class="slide-title">Sculpted Gel Nail Designs</div>
+            <div class="slide-desc">Chrome finishes, hand-painted florals, and crystal encrusted nails — wearable art at your fingertips.</div>
           </div>
-          <div class="ba-side ba-after">
-            <img src="https://images.pexels.com/photos/1029662/pexels-photo-1029662.jpeg?auto=compress&cs=tinysrgb&w=600" alt="After nails">
-            <div class="ba-label">After</div>
-            <div class="gallery-caption"><strong>Nail Art Luxury</strong> — Gel extension</div>
-          </div>
+          <div class="slide-counter"><span class="current-num">03</span> / 06</div>
         </div>
-        
+
         <!-- Slide 4 -->
-        <div class="gallery-slide">
-          <div class="ba-side ba-before">
-            <img src="https://images.pexels.com/photos/1918359/pexels-photo-1918359.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Before brows">
-            <div class="ba-label">Before</div>
+        <div class="carousel-slide" data-index="3">
+          <img src="https://images.pexels.com/photos/1457983/pexels-photo-1457983.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Bridal makeup application">
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-category">Bridal Studio</div>
+            <div class="slide-title">Bridal Makeup Perfection</div>
+            <div class="slide-desc">Camera-ready, tear-proof makeup that celebrates your unique beauty on the most important day of your life.</div>
           </div>
-          <div class="ba-side ba-after">
-            <img src="https://images.pexels.com/photos/2113174/pexels-photo-2113174.jpeg?auto=compress&cs=tinysrgb&w=600" alt="After brows">
-            <div class="ba-label">After</div>
-            <div class="gallery-caption"><strong>Brow & Lash Lift</strong> — Lamination</div>
+          <div class="slide-counter"><span class="current-num">04</span> / 06</div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="carousel-slide" data-index="4">
+          <img src="https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Brow and lash treatments">
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-category">Brow & Lash</div>
+            <div class="slide-title">Laminated Brow & Lash Lift</div>
+            <div class="slide-desc">Wake up with perfectly framed eyes — our laminated brows and lifted lashes eliminate your morning routine.</div>
           </div>
+          <div class="slide-counter"><span class="current-num">05</span> / 06</div>
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="carousel-slide" data-index="5">
+          <img src="https://images.pexels.com/photos/6620462/pexels-photo-6620462.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Salon interior ambiance">
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <div class="slide-category">Our Space</div>
+            <div class="slide-title">The Lumière Sanctuary</div>
+            <div class="slide-desc">Step into a world of calm — warm tones, soft lighting, and the scent of roses welcome you the moment you arrive.</div>
+          </div>
+          <div class="slide-counter"><span class="current-num">06</span> / 06</div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="carousel-progress" id="carouselProgress"></div>
+
+        <!-- Arrows -->
+        <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous slide">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="carousel-arrow next" id="carouselNext" aria-label="Next slide">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Dots -->
+      <div class="carousel-dots" id="carouselDots">
+        <button class="carousel-dot active" data-index="0" aria-label="Slide 1"></button>
+        <button class="carousel-dot" data-index="1" aria-label="Slide 2"></button>
+        <button class="carousel-dot" data-index="2" aria-label="Slide 3"></button>
+        <button class="carousel-dot" data-index="3" aria-label="Slide 4"></button>
+        <button class="carousel-dot" data-index="4" aria-label="Slide 5"></button>
+        <button class="carousel-dot" data-index="5" aria-label="Slide 6"></button>
+      </div>
+
+      <!-- Thumbnail strip -->
+      <div class="carousel-thumbs" id="carouselThumbs">
+        <div class="carousel-thumb active" data-index="0">
+          <img src="https://images.pexels.com/photos/3993352/pexels-photo-3993352.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Thumbnail 1">
+        </div>
+        <div class="carousel-thumb" data-index="1">
+          <img src="https://images.pexels.com/photos/1520725/pexels-photo-1520725.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Thumbnail 2">
+        </div>
+        <div class="carousel-thumb" data-index="2">
+          <img src="https://images.pexels.com/photos/1029662/pexels-photo-1029662.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Thumbnail 3">
+        </div>
+        <div class="carousel-thumb" data-index="3">
+          <img src="https://images.pexels.com/photos/3738759/pexels-photo-3738759.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Thumbnail 4">
+        </div>
+        <div class="carousel-thumb" data-index="4">
+          <img src="https://images.pexels.com/photos/2113174/pexels-photo-2113174.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Thumbnail 5">
+        </div>
+        <div class="carousel-thumb" data-index="5">
+          <img src="https://images.pexels.com/photos/6044266/pexels-photo-6044266.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Thumbnail 6">
         </div>
       </div>
     </div>
-    
-    <!-- Navigation -->
-    <div class="gallery-nav">
-      <button class="gallery-arrow" id="galleryPrev" aria-label="Previous slide">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <div class="gallery-dots">
-        <button class="gallery-dot active" data-slide="0" aria-label="Go to slide 1"></button>
-        <button class="gallery-dot" data-slide="1" aria-label="Go to slide 2"></button>
-        <button class="gallery-dot" data-slide="2" aria-label="Go to slide 3"></button>
-        <button class="gallery-dot" data-slide="3" aria-label="Go to slide 4"></button>
-      </div>
-      <button class="gallery-arrow" id="galleryNext" aria-label="Next slide">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-    </div>
-  </div>
-</section>
+  </section>
 
   <!-- TESTIMONIALS -->
   <section class="testimonials-section" id="testimonials">
@@ -1773,7 +1927,7 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-logo">Lumière<span>.</span></div>
-    <p>&copy; 2025 Lumière Beauty Salon. All rights reserved.</p>
+    <p>Developed by SR Web Developer</p>
     <div class="footer-links">
       <a href="#">Privacy Policy</a>
       <a href="#">Terms of Service</a>
@@ -1828,155 +1982,174 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
     fadeEls.forEach(el => fadeObserver.observe(el));
 
-// ─── GALLERY SLIDER — FIXED & ENHANCED ───
-const slider = document.getElementById('gallerySlider');
-const slides = slider ? slider.querySelectorAll('.gallery-slide') : [];
-const dots = document.querySelectorAll('.gallery-dot');
-const prevBtn = document.getElementById('galleryPrev');
-const nextBtn = document.getElementById('galleryNext');
-let currentSlide = 0;
-const totalSlides = slides.length;
-let autoSlideInterval;
-
-// Initialize slider
-function initSlider() {
-  if (!slider || slides.length === 0) {
-    console.warn('Gallery slider not found or no slides');
-    return;
-  }
-  
-  // Set initial position
-  updateSliderPosition();
-  
-  // Start auto-play
-  startAutoSlide();
-}
-
-function updateSliderPosition() {
-  if (!slider) return;
-  slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-  
-  // Update dots
-  dots.forEach((dot, index) => {
-    dot.classList.toggle('active', index === currentSlide);
-  });
-}
-
-function goToSlide(index) {
-  // Handle wrap-around
-  if (index < 0) {
-    currentSlide = totalSlides - 1;
-  } else if (index >= totalSlides) {
-    currentSlide = 0;
-  } else {
-    currentSlide = index;
-  }
-  
-  updateSliderPosition();
-}
-
-function nextSlide() {
-  goToSlide(currentSlide + 1);
-}
-
-function prevSlide() {
-  goToSlide(currentSlide - 1);
-}
-
-// Event listeners
-if (prevBtn) {
-  prevBtn.addEventListener('click', () => {
-    prevSlide();
-    resetAutoSlide();
-  });
-}
-
-if (nextBtn) {
-  nextBtn.addEventListener('click', () => {
-    nextSlide();
-    resetAutoSlide();
-  });
-}
-
-dots.forEach(dot => {
-  dot.addEventListener('click', () => {
-    const slideIndex = parseInt(dot.dataset.slide);
-    goToSlide(slideIndex);
-    resetAutoSlide();
-  });
-});
-
-// Auto-play functionality
-function startAutoSlide() {
-  autoSlideInterval = setInterval(() => {
-    nextSlide();
-  }, 5000);
-}
-
-function resetAutoSlide() {
-  clearInterval(autoSlideInterval);
-  startAutoSlide();
-}
-
-// Pause on hover
-if (slider && slider.parentElement) {
-  slider.parentElement.addEventListener('mouseenter', () => {
-    clearInterval(autoSlideInterval);
-  });
-  
-  slider.parentElement.addEventListener('mouseleave', () => {
-    startAutoSlide();
-  });
-}
-
-// Touch/swipe support
-let touchStartX = 0;
-let touchEndX = 0;
-
-if (slider) {
-  slider.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-  
-  slider.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  }, { passive: true });
-}
-
-function handleSwipe() {
-  const swipeThreshold = 50;
-  const diff = touchStartX - touchEndX;
-  
-  if (Math.abs(diff) > swipeThreshold) {
-    if (diff > 0) {
-      // Swipe left - next slide
-      nextSlide();
-    } else {
-      // Swipe right - previous slide
-      prevSlide();
+    // ─── SCROLL TO BOOKING ───
+    function scrollToBooking() {
+      document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
     }
-    resetAutoSlide();
-  }
-}
 
-// Keyboard navigation
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowLeft') {
-    prevSlide();
-    resetAutoSlide();
-  } else if (e.key === 'ArrowRight') {
-    nextSlide();
-    resetAutoSlide();
-  }
-});
+    // ─── BOOKING FORM ───
+    function handleBooking(e) {
+      e.preventDefault();
+      showToast('Appointment request sent! We\'ll confirm within the hour.');
+      e.target.reset();
+    }
 
-// Initialize on DOM load
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initSlider);
-} else {
-  initSlider();
-}
+    // ─── TOAST ───
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
+    // ═══════════════════════════════════════════
+    // NEW CAROUSEL — FULL FUNCTIONALITY
+    // ═══════════════════════════════════════════
+    (function() {
+      const stage = document.getElementById('carouselStage');
+      const slides = stage ? stage.querySelectorAll('.carousel-slide') : [];
+      const dots = document.querySelectorAll('.carousel-dot');
+      const thumbs = document.querySelectorAll('.carousel-thumb');
+      const prevBtn = document.getElementById('carouselPrev');
+      const nextBtn = document.getElementById('carouselNext');
+      const progressBar = document.getElementById('carouselProgress');
+
+      if (!stage || slides.length === 0) return;
+
+      const total = slides.length;
+      let current = 0;
+      let isAnimating = false;
+      let autoTimer = null;
+      let progressTimer = null;
+      let progressStart = 0;
+      const AUTO_INTERVAL = 6000; // 6 seconds per slide
+
+      // ── Go to specific slide ──
+      function goTo(index) {
+        if (isAnimating || index === current) return;
+        isAnimating = true;
+
+        // Remove active from current
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        thumbs[current].classList.remove('active');
+
+        // Set new
+        current = (index + total) % total;
+
+        slides[current].classList.add('active');
+        dots[current].classList.remove('active');
+        dots[current].classList.add('active'); // force reflow for animation
+        thumbs[current].classList.add('active');
+
+        // Unlock after transition
+        setTimeout(() => { isAnimating = false; }, 950);
+
+        // Reset progress
+        resetProgress();
+      }
+
+      function next() { goTo(current + 1); }
+      function prev() { goTo(current - 1); }
+
+      // ── Progress bar ──
+      function resetProgress() {
+        progressBar.style.width = '0%';
+        progressStart = Date.now();
+      }
+
+      function tickProgress() {
+        if (!progressStart) { progressStart = Date.now(); }
+        const elapsed = Date.now() - progressStart;
+        const pct = Math.min((elapsed / AUTO_INTERVAL) * 100, 100);
+        progressBar.style.width = pct + '%';
+        progressTimer = requestAnimationFrame(tickProgress);
+      }
+
+      // ── Auto-play ──
+      function startAuto() {
+        stopAuto();
+        resetProgress();
+        tickProgress();
+        autoTimer = setInterval(() => {
+          next();
+        }, AUTO_INTERVAL);
+      }
+
+      function stopAuto() {
+        clearInterval(autoTimer);
+        cancelAnimationFrame(progressTimer);
+        autoTimer = null;
+      }
+
+      // ── Event listeners ──
+      if (prevBtn) prevBtn.addEventListener('click', () => { prev(); startAuto(); });
+      if (nextBtn) nextBtn.addEventListener('click', () => { next(); startAuto(); });
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          goTo(parseInt(dot.dataset.index));
+          startAuto();
+        });
+      });
+
+      thumbs.forEach(thumb => {
+        thumb.addEventListener('click', () => {
+          goTo(parseInt(thumb.dataset.index));
+          startAuto();
+        });
+      });
+
+      // Pause on hover
+      stage.addEventListener('mouseenter', stopAuto);
+      stage.addEventListener('mouseleave', startAuto);
+
+      // Touch / swipe support
+      let touchX0 = 0;
+      let touchY0 = 0;
+
+      stage.addEventListener('touchstart', (e) => {
+        touchX0 = e.changedTouches[0].screenX;
+        touchY0 = e.changedTouches[0].screenY;
+        stopAuto();
+      }, { passive: true });
+
+      stage.addEventListener('touchend', (e) => {
+        const dx = touchX0 - e.changedTouches[0].screenX;
+        const dy = touchY0 - e.changedTouches[0].screenY;
+        // Only trigger if horizontal swipe is dominant and > threshold
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+          dx > 0 ? next() : prev();
+        }
+        startAuto();
+      }, { passive: true });
+
+      // Keyboard navigation (only when gallery is in viewport)
+      document.addEventListener('keydown', (e) => {
+        const rect = stage.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (!inView) return;
+
+        if (e.key === 'ArrowLeft') { prev(); startAuto(); }
+        if (e.key === 'ArrowRight') { next(); startAuto(); }
+      });
+
+      // Preload adjacent images for smoother transitions
+      function preloadImages() {
+        slides.forEach(slide => {
+          const img = slide.querySelector('img');
+          if (img) {
+            const preload = new Image();
+            preload.src = img.src;
+          }
+        });
+      }
+
+      // Initialize
+      preloadImages();
+      startAuto();
+    })();
   </script>
 </body>
 
