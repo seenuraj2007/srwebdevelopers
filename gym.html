@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FORGE — Transform Your Body</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #000000;
+      --dark: #0a0a0a;
+      --dark-card: #111111;
+      --dark-border: #1a1a1a;
+      --neon-green: #39FF14;
+      --neon-yellow: #DFFF00;
+      --neon-green-dim: rgba(57, 255, 20, 0.15);
+      --neon-yellow-dim: rgba(223, 255, 0, 0.1);
+      --text-white: #f0f0f0;
+      --text-gray: #888888;
+      --text-dim: #555555;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--text-white);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    ::selection {
+      background: var(--neon-green);
+      color: var(--black);
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--dark);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--neon-green);
+      border-radius: 4px;
+    }
+
+    /* ========== UTILITY ========== */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--neon-green);
+      display: inline-block;
+      margin-bottom: 16px;
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .section-label::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 28px;
+      height: 2px;
+      background: var(--neon-green);
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 7vw, 96px);
+      line-height: 0.95;
+      letter-spacing: -1px;
+      color: var(--text-white);
+      text-transform: uppercase;
+    }
+
+    .section-title .highlight {
+      color: var(--neon-green);
+      position: relative;
+    }
+
+    .section-title .highlight-yellow {
+      color: var(--neon-yellow);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 40px;
+      background: var(--neon-green);
+      color: var(--black);
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary:hover {
+      background: #50ff30;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(57, 255, 20, 0.4), 0 0 60px rgba(57, 255, 20, 0.15);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 40px;
+      background: transparent;
+      color: var(--text-white);
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      border: 2px solid var(--dark-border);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--neon-green);
+      color: var(--neon-green);
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(57, 255, 20, 0.1);
+    }
+
+    /* ========== NAV ========== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 0 24px;
+      transition: all 0.4s ease;
+    }
+
+    .navbar.scrolled {
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--dark-border);
+    }
+
+    .navbar .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 4px;
+      color: var(--text-white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-logo span {
+      color: var(--neon-green);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-gray);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--neon-green);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--neon-green);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      padding: 10px 24px !important;
+      background: var(--neon-green) !important;
+      color: var(--black) !important;
+      font-weight: 700 !important;
+      border-radius: 0;
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    .nav-cta:hover {
+      background: #50ff30 !important;
+      color: var(--black) !important;
+      box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+    }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-white);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(60%) brightness(0.35) contrast(1.2);
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.7) 100%);
+    }
+
+    .hero-grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(57, 255, 20, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57, 255, 20, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 1;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      padding-top: 80px;
+    }
+
+    .hero-content {
+      max-width: 650px;
+    }
+
+    .hero-subtitle {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--neon-green);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-subtitle .line {
+      width: 40px;
+      height: 2px;
+      background: var(--neon-green);
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 8vw, 110px);
+      line-height: 0.92;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      letter-spacing: -2px;
+    }
+
+    .hero-title .line2 {
+      color: var(--neon-green);
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      color: var(--text-gray);
+      max-width: 480px;
+      margin-bottom: 40px;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid var(--dark-border);
+    }
+
+    .hero-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: var(--neon-green);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    .hero-image-col {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-image-wrapper {
+      position: relative;
+      width: 420px;
+      height: 540px;
+      overflow: hidden;
+    }
+
+    .hero-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(30%) contrast(1.15);
+      transition: all 0.7s ease;
+    }
+
+    .hero-image-wrapper:hover img {
+      filter: grayscale(0%) contrast(1.05);
+      transform: scale(1.05);
+    }
+
+    .hero-image-wrapper::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, var(--neon-green), transparent 50%, var(--neon-yellow));
+      z-index: -1;
+    }
+
+    .hero-image-wrapper::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(to top, var(--black), transparent);
+      pointer-events: none;
+    }
+
+    .hero-float-badge {
+      position: absolute;
+      bottom: 30px;
+      left: -30px;
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 3;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .hero-float-badge .icon-circle {
+      width: 44px;
+      height: 44px;
+      background: var(--neon-green-dim);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--neon-green);
+      font-size: 18px;
+    }
+
+    .hero-float-badge .badge-text {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+
+    .hero-float-badge .badge-text strong {
+      display: block;
+      font-size: 18px;
+      color: var(--neon-green);
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* ========== MARQUEE ========== */
+    .marquee-section {
+      padding: 20px 0;
+      border-top: 1px solid var(--dark-border);
+      border-bottom: 1px solid var(--dark-border);
+      overflow: hidden;
+    }
+
+    .marquee-track {
+      display: flex;
+      animation: marquee 20s linear infinite;
+      width: max-content;
+    }
+
+    .marquee-item {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      white-space: nowrap;
+      padding: 0 30px;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .marquee-item .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--neon-green);
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ========== PRICING ========== */
+    .pricing-section {
+      padding: 120px 0;
+      position: relative;
+    }
+
+    .pricing-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(57, 255, 20, 0.04), transparent 70%);
+      pointer-events: none;
+    }
+
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+
+    .pricing-header .section-label {
+      padding-left: 0;
+    }
+
+    .pricing-header .section-label::before {
+      display: none;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .pricing-card {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      padding: 44px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .pricing-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--dark-border);
+      transition: background 0.4s ease;
+    }
+
+    .pricing-card:hover {
+      border-color: rgba(57, 255, 20, 0.3);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .pricing-card:hover::before {
+      background: var(--neon-green);
+    }
+
+    .pricing-card.featured {
+      border-color: var(--neon-green);
+      background: linear-gradient(180deg, rgba(57, 255, 20, 0.05), var(--dark-card) 40%);
+    }
+
+    .pricing-card.featured::before {
+      background: var(--neon-green);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--neon-green);
+      color: var(--black);
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+    }
+
+    .pricing-plan-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+    }
+
+    .pricing-price {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .pricing-currency {
+      font-family: 'Oswald', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--neon-green);
+    }
+
+    .pricing-amount {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 72px;
+      line-height: 1;
+      color: var(--text-white);
+    }
+
+    .pricing-period {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-gray);
+    }
+
+    .pricing-features li i {
+      color: var(--neon-green);
+      font-size: 12px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .pricing-features li.disabled {
+      color: var(--text-dim);
+      text-decoration: line-through;
+      opacity: 0.4;
+    }
+
+    .pricing-features li.disabled i {
+      color: var(--text-dim);
+    }
+
+    .pricing-card .btn-primary,
+    .pricing-card .btn-outline {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* ========== TRAINERS ========== */
+    .trainers-section {
+      padding: 120px 0;
+      background: var(--dark);
+      position: relative;
+    }
+
+    .trainers-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+      margin-bottom: 72px;
+    }
+
+    .trainers-desc {
+      font-size: 16px;
+      color: var(--text-gray);
+      font-weight: 300;
+      line-height: 1.8;
+      max-width: 440px;
+    }
+
+    .trainers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .trainer-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 3/4;
+      group: true;
+    }
+
+    .trainer-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(80%) brightness(0.6);
+      transition: all 0.6s ease;
+    }
+
+    .trainer-card:hover img {
+      filter: grayscale(0%) brightness(0.75);
+      transform: scale(1.1);
+    }
+
+    .trainer-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 60%);
+      transition: all 0.4s ease;
+    }
+
+    .trainer-card:hover::after {
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(57, 255, 20, 0.05) 50%, transparent 100%);
+    }
+
+    .trainer-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px;
+      z-index: 2;
+      transform: translateY(20px);
+      transition: transform 0.4s ease;
+    }
+
+    .trainer-card:hover .trainer-info {
+      transform: translateY(0);
+    }
+
+    .trainer-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .trainer-role {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--neon-green);
+      margin-top: 6px;
+    }
+
+    .trainer-socials {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease 0.1s;
+    }
+
+    .trainer-card:hover .trainer-socials {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .trainer-socials a {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(57, 255, 20, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--neon-green);
+      font-size: 13px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .trainer-socials a:hover {
+      background: var(--neon-green);
+      color: var(--black);
+      border-color: var(--neon-green);
+    }
+
+    /* ========== TRANSFORMATIONS ========== */
+    .transformations-section {
+      padding: 120px 0;
+      position: relative;
+    }
+
+    .transformations-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+
+    .transformations-header .section-label {
+      padding-left: 0;
+    }
+
+    .transformations-header .section-label::before {
+      display: none;
+    }
+
+    .transform-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .transform-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      cursor: pointer;
+      border: 1px solid var(--dark-border);
+    }
+
+    .transform-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(50%) brightness(0.5);
+      transition: all 0.6s ease;
+    }
+
+    .transform-card:hover img {
+      filter: grayscale(0%) brightness(0.7);
+      transform: scale(1.08);
+    }
+
+    .transform-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.9) 100%);
+      z-index: 1;
+    }
+
+    .transform-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 28px;
+      z-index: 2;
+    }
+
+    .transform-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--neon-green);
+      color: var(--black);
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      margin-bottom: 12px;
+    }
+
+    .transform-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .transform-detail {
+      font-size: 13px;
+      color: var(--text-gray);
+      margin-top: 4px;
+    }
+
+    .transform-card .overlay-stats {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: all 0.4s ease;
+    }
+
+    .transform-card:hover .overlay-stats {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .overlay-stat {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--dark-border);
+      padding: 8px 14px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .overlay-stat span {
+      color: var(--neon-green);
+      font-weight: 700;
+    }
+
+    /* ========== TESTIMONIALS ========== */
+    .testimonials-section {
+      padding: 120px 0;
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonials-section::before {
+      content: '';
+      position: absolute;
+      left: -200px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(223, 255, 0, 0.03), transparent 70%);
+      pointer-events: none;
+    }
+
+    .testimonials-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+
+    .testimonials-header .section-label {
+      padding-left: 0;
+    }
+
+    .testimonials-header .section-label::before {
+      display: none;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .testimonial-card {
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      padding: 36px;
+      position: relative;
+      transition: all 0.4s ease;
+    }
+
+    .testimonial-card:hover {
+      border-color: rgba(57, 255, 20, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .testimonial-quote-icon {
+      font-size: 36px;
+      color: var(--neon-green);
+      opacity: 0.3;
+      margin-bottom: 16px;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .testimonial-text {
+      font-size: 15px;
+      color: var(--text-gray);
+      line-height: 1.8;
+      margin-bottom: 28px;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .testimonial-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--dark-border);
+      filter: grayscale(50%);
+    }
+
+    .testimonial-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .testimonial-role {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .testimonial-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 20px;
+    }
+
+    .testimonial-stars i {
+      font-size: 14px;
+      color: var(--neon-yellow);
+    }
+
+    /* ========== CTA ========== */
+    .cta-section {
+      padding: 120px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-inner {
+      position: relative;
+      background: var(--dark-card);
+      border: 1px solid var(--dark-border);
+      padding: 80px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--neon-green), var(--neon-yellow), var(--neon-green), transparent);
+    }
+
+    .cta-inner::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(57, 255, 20, 0.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 6vw, 80px);
+      line-height: 0.95;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-desc {
+      font-size: 17px;
+      color: var(--text-gray);
+      max-width: 500px;
+      margin: 0 auto 40px;
+      font-weight: 300;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-note {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-note i {
+      color: var(--neon-green);
+      margin-right: 6px;
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      padding: 60px 0 30px;
+      border-top: 1px solid var(--dark-border);
+      background: var(--black);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-top: 16px;
+      line-height: 1.7;
+      max-width: 320px;
+    }
+
+    .footer-heading {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-white);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      font-size: 14px;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--neon-green);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .footer-socials a {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--dark-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 15px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer-socials a:hover {
+      border-color: var(--neon-green);
+      color: var(--neon-green);
+      background: var(--neon-green-dim);
+    }
+
+    .footer-bottom {
+      padding-top: 30px;
+      border-top: 1px solid var(--dark-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-bottom p {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    /* ========== PARALLAX ELEMENTS ========== */
+    .parallax-element {
+      transition: transform 0.1s linear;
+      will-change: transform;
+    }
+
+    /* ========== SCROLL ANIMATIONS ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    .reveal-delay-4 {
+      transition-delay: 0.4s;
+    }
+
+    /* ========== MOBILE MENU ========== */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 400px;
+      height: 100vh;
+      background: var(--dark);
+      border-left: 1px solid var(--dark-border);
+      z-index: 2000;
+      padding: 80px 40px 40px;
+      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mobile-menu.open {
+      right: 0;
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .mobile-menu-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-menu-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: var(--text-white);
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .mobile-menu-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mobile-menu-links a {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 2px;
+      color: var(--text-gray);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: block;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--dark-border);
+    }
+
+    .mobile-menu-links a:hover {
+      color: var(--neon-green);
+      padding-left: 12px;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1024px) {
+      .hero .container {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-content {
+        max-width: 100%;
+      }
+
+      .hero-desc {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .hero-subtitle {
+        justify-content: center;
+      }
+
+      .hero-image-col {
+        display: none;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+
+      .trainers-header {
+        grid-template-columns: 1fr;
+      }
+
+      .trainers-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .transform-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+        max-width: 560px;
+        margin: 0 auto;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-toggle {
+        display: block;
+      }
+
+      .trainers-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .transform-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        flex-direction: column;
+        gap: 24px;
+        align-items: center;
+      }
+
+      .cta-inner {
+        padding: 50px 24px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#" class="nav-logo">FORG<span>E</span></a>
+      <ul class="nav-links">
+        <li><a href="#pricing">Plans</a></li>
+        <li><a href="#trainers">Trainers</a></li>
+        <li><a href="#transformations">Results</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#join" class="nav-cta">Join Now</a></li>
+      </ul>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" id="mobileClose" aria-label="Close menu"><i class="fas fa-times"></i></button>
+    <ul class="mobile-menu-links">
+      <li><a href="#pricing">Plans</a></li>
+      <li><a href="#trainers">Trainers</a></li>
+      <li><a href="#transformations">Results</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#join">Join Now</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <img src="https://t3.ftcdn.net/jpg/14/38/98/68/360_F_1438986864_q2BfKmyIBtz2sjk6efJUtK4QYoozGOHX.jpg"
+        alt="Dark Gym Interior">
+      <div class="hero-grid-overlay"></div>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-subtitle parallax-element" data-speed="0.02">
+          <span class="line"></span>
+          No excuses. Just results.
+        </div>
+        <h1 class="hero-title">
+          Transform<br>
+          <span class="line2">Your Body</span><br>
+          Today
+        </h1>
+        <p class="hero-desc parallax-element" data-speed="0.03">
+          Where iron meets willpower. Step into an environment built for those who refuse to settle for average. Your
+          transformation starts now.
+        </p>
+        <div class="hero-buttons">
+          <a href="#join" class="btn-primary">
+            Start Free Trial <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="#pricing" class="btn-outline">
+            View Plans
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="parallax-element" data-speed="0.015">
+            <div class="hero-stat-num" data-count="2500">0</div>
+            <div class="hero-stat-label">Active Members</div>
+          </div>
+          <div class="parallax-element" data-speed="0.025">
+            <div class="hero-stat-num" data-count="15">0</div>
+            <div class="hero-stat-label">Expert Trainers</div>
+          </div>
+          <div class="parallax-element" data-speed="0.035">
+            <div class="hero-stat-num" data-count="98">0</div>
+            <div class="hero-stat-label">% Satisfaction</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-image-col">
+        <div class="hero-image-wrapper parallax-element" data-speed="0.04">
+          <img src="https://images.pexels.com/photos/50597/man-male-boy-a-person-50597.jpeg" alt="Athlete">
+        </div>
+        <div class="hero-float-badge">
+          <div class="icon-circle"><i class="fas fa-fire-flame-curved"></i></div>
+          <div class="badge-text">
+            <strong>12K+</strong>
+            Calories Burned Daily
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <section class="marquee-section">
+    <div class="marquee-track">
+      <div class="marquee-item">Strength Training <span class="dot"></span></div>
+      <div class="marquee-item">HIIT Workouts <span class="dot"></span></div>
+      <div class="marquee-item">Boxing Ring <span class="dot"></span></div>
+      <div class="marquee-item">CrossFit Zone <span class="dot"></span></div>
+      <div class="marquee-item">Recovery Suite <span class="dot"></span></div>
+      <div class="marquee-item">Nutrition Plans <span class="dot"></span></div>
+      <div class="marquee-item">Personal Coaching <span class="dot"></span></div>
+      <div class="marquee-item">Olympic Lifting <span class="dot"></span></div>
+      <div class="marquee-item">Strength Training <span class="dot"></span></div>
+      <div class="marquee-item">HIIT Workouts <span class="dot"></span></div>
+      <div class="marquee-item">Boxing Ring <span class="dot"></span></div>
+      <div class="marquee-item">CrossFit Zone <span class="dot"></span></div>
+      <div class="marquee-item">Recovery Suite <span class="dot"></span></div>
+      <div class="marquee-item">Nutrition Plans <span class="dot"></span></div>
+      <div class="marquee-item">Personal Coaching <span class="dot"></span></div>
+      <div class="marquee-item">Olympic Lifting <span class="dot"></span></div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div class="pricing-header reveal">
+        <div class="section-label">Membership Plans</div>
+        <h2 class="section-title">Choose Your <span class="highlight">Weapon</span></h2>
+      </div>
+      <div class="pricing-grid">
+        <!-- Starter -->
+        <div class="pricing-card reveal reveal-delay-1">
+          <div class="pricing-plan-name">Starter</div>
+          <div class="pricing-price">
+            <span class="pricing-currency">$</span>
+            <span class="pricing-amount">29</span>
+          </div>
+          <div class="pricing-period">per month</div>
+          <ul class="pricing-features">
+            <li><i class="fas fa-check"></i> Full gym access</li>
+            <li><i class="fas fa-check"></i> Locker room & showers</li>
+            <li><i class="fas fa-check"></i> Basic equipment usage</li>
+            <li><i class="fas fa-check"></i> Free WiFi</li>
+            <li class="disabled"><i class="fas fa-xmark"></i> Group classes</li>
+            <li class="disabled"><i class="fas fa-xmark"></i> Personal trainer</li>
+            <li class="disabled"><i class="fas fa-xmark"></i> Recovery suite</li>
+          </ul>
+          <a href="#join" class="btn-outline">Get Started</a>
+        </div>
+        <!-- Pro -->
+        <div class="pricing-card featured reveal reveal-delay-2">
+          <div class="pricing-badge">Most Popular</div>
+          <div class="pricing-plan-name">Pro</div>
+          <div class="pricing-price">
+            <span class="pricing-currency">$</span>
+            <span class="pricing-amount">59</span>
+          </div>
+          <div class="pricing-period">per month</div>
+          <ul class="pricing-features">
+            <li><i class="fas fa-check"></i> Everything in Starter</li>
+            <li><i class="fas fa-check"></i> Unlimited group classes</li>
+            <li><i class="fas fa-check"></i> Boxing & CrossFit zone</li>
+            <li><i class="fas fa-check"></i> Monthly body assessment</li>
+            <li><i class="fas fa-check"></i> Nutrition guidance</li>
+            <li class="disabled"><i class="fas fa-xmark"></i> 1-on-1 personal trainer</li>
+            <li class="disabled"><i class="fas fa-xmark"></i> Recovery suite</li>
+          </ul>
+          <a href="#join" class="btn-primary">Join Pro</a>
+        </div>
+        <!-- Elite -->
+        <div class="pricing-card reveal reveal-delay-3">
+          <div class="pricing-plan-name">Elite</div>
+          <div class="pricing-price">
+            <span class="pricing-currency">$</span>
+            <span class="pricing-amount">99</span>
+          </div>
+          <div class="pricing-period">per month</div>
+          <ul class="pricing-features">
+            <li><i class="fas fa-check"></i> Everything in Pro</li>
+            <li><i class="fas fa-check"></i> Dedicated personal trainer</li>
+            <li><i class="fas fa-check"></i> Recovery suite access</li>
+            <li><i class="fas fa-check"></i> Custom meal plans</li>
+            <li><i class="fas fa-check"></i> Priority class booking</li>
+            <li><i class="fas fa-check"></i> Guest passes (2/month)</li>
+            <li><i class="fas fa-check"></i> Exclusive merch discounts</li>
+          </ul>
+          <a href="#join" class="btn-outline">Go Elite</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAINERS -->
+  <section class="trainers-section" id="trainers">
+    <div class="container">
+      <div class="trainers-header">
+        <div class="reveal">
+          <div class="section-label">Meet The Team</div>
+          <h2 class="section-title">Our Elite <span class="highlight">Trainers</span></h2>
+        </div>
+        <p class="trainers-desc reveal reveal-delay-1">
+          Handpicked for their expertise, passion, and ability to push you beyond what you thought possible. Every
+          trainer is a certified weapon.
+        </p>
+      </div>
+      <div class="trainers-grid">
+        <div class="trainer-card reveal reveal-delay-1">
+          <img
+            src="https://photos.peopleimages.com/picture/202211/2560155-happy-personal-trainer-portrait-of-strong-man-and-body-goals-for-exercise-motivation-in-mexico.-young-mexican-coach-with-healthy-lifestyle-outdoor-gym-for-fitness-training-and-sunshine-lens-flare-fit_400_400.jpg"
+            alt="Marcus Kane - Strength Coach">
+          <div class="trainer-info">
+            <div class="trainer-name">Marcus Kane</div>
+            <div class="trainer-role">Strength & Conditioning</div>
+            <div class="trainer-socials">
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="trainer-card reveal reveal-delay-2">
+          <img
+            src="https://www.shutterstock.com/image-photo/portrait-female-personal-trainer-holding-260nw-2249557387.jpg"
+            alt="Sarah Voss - HIIT Instructor">
+          <div class="trainer-info">
+            <div class="trainer-name">Sarah Voss</div>
+            <div class="trainer-role">HIIT & CrossFit</div>
+            <div class="trainer-socials">
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="trainer-card reveal reveal-delay-3">
+          <img
+            src="https://spcdn.shortpixel.ai/spio/ret_img,q_cdnize,to_webp,s_webp/bravemmaandfitness.com/wp-content/uploads/2024/10/Brave-MMA_0004s_0003_DSC07837-1024x1024.jpg"
+            alt="Dante Cruz - Boxing Coach">
+          <div class="trainer-info">
+            <div class="trainer-name">Dante Cruz</div>
+            <div class="trainer-role">Boxing & MMA</div>
+            <div class="trainer-socials">
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="trainer-card reveal reveal-delay-4">
+          <img src="https://t4.ftcdn.net/jpg/05/76/31/25/360_F_576312586_IlDNPZ6sL5r5aCmDB9ZYoSbE6bcpZNHL.jpg"
+            alt="Ava Chen - Yoga Instructor">
+          <div class="trainer-info">
+            <div class="trainer-name">Ava Chen</div>
+            <div class="trainer-role">Yoga & Recovery</div>
+            <div class="trainer-socials">
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSFORMATIONS -->
+  <section class="transformations-section" id="transformations">
+    <div class="container">
+      <div class="transformations-header reveal">
+        <div class="section-label">Real Results</div>
+        <h2 class="section-title">Transformation <span class="highlight">Gallery</span></h2>
+      </div>
+      <div class="transform-grid">
+        <div class="transform-card reveal reveal-delay-1">
+          <img
+            src="https://hips.hearstapps.com/hmg-prod/images/mh-12-18-transformation-social-1576705630.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*"
+            alt="Jake Morrison Transformation">
+          <div class="overlay-stats">
+            <div class="overlay-stat"><span>-32</span> LBS</div>
+            <div class="overlay-stat"><span>16</span> WEEKS</div>
+          </div>
+          <div class="transform-info">
+            <div class="transform-tag"><i class="fas fa-bolt"></i> Shredded</div>
+            <div class="transform-name">Jake Morrison</div>
+            <div class="transform-detail">From 240 lbs to 208 lbs</div>
+          </div>
+        </div>
+        <div class="transform-card reveal reveal-delay-2">
+          <img src="https://i.insider.com/66d9edc81d8d2deb96b97457?width=700" alt="Ryan Park Transformation">
+          <div class="overlay-stats">
+            <div class="overlay-stat"><span>+18</span> LBS MUSCLE</div>
+            <div class="overlay-stat"><span>24</span> WEEKS</div>
+          </div>
+          <div class="transform-info">
+            <div class="transform-tag"><i class="fas fa-dumbbell"></i> Bulk Up</div>
+            <div class="transform-name">Ryan Park</div>
+            <div class="transform-detail">Gained 18 lbs of lean muscle</div>
+          </div>
+        </div>
+        <div class="transform-card reveal reveal-delay-3">
+          <img
+            src="https://img.freepik.com/premium-photo/portrait-young-physically-fit-hispanic-man-showing-his-well-trained-abdominal-muscles-muscular-athletic-bodybuilder-fitness-model-posing-after-exercises_600776-22436.jpg"
+            alt="Maria Santos Transformation">
+          <div class="overlay-stats">
+            <div class="overlay-stat"><span>-45</span> LBS</div>
+            <div class="overlay-stat"><span>20</span> WEEKS</div>
+          </div>
+          <div class="transform-info">
+            <div class="transform-tag"><i class="fas fa-fire"></i> Complete</div>
+            <div class="transform-name">Maria Santos</div>
+            <div class="transform-detail">Total body recomposition</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="container">
+      <div class="testimonials-header reveal">
+        <div class="section-label">What They Say</div>
+        <h2 class="section-title">Member <span class="highlight-yellow">Reviews</span></h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="testimonial-stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+              class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <div class="testimonial-quote-icon">"</div>
+          <p class="testimonial-text">FORGE changed my life. The energy here is unmatched — every session feels like a
+            battle you actually want to fight. Down 40 pounds and counting.</p>
+          <div class="testimonial-author">
+            <img src="https://www.shutterstock.com/image-photo/gym-smile-portrait-man-arms-260nw-2312975833.jpg"
+              alt="Tom Bradley" class="testimonial-avatar">
+            <div>
+              <div class="testimonial-name">Tom Bradley</div>
+              <div class="testimonial-role">Member for 8 months</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+              class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <div class="testimonial-quote-icon">"</div>
+          <p class="testimonial-text">The trainers don't just push you — they believe in you even when you don't. Marcus
+            helped me hit a 315lb deadlift I never thought possible.</p>
+          <div class="testimonial-author">
+            <img
+              src="https://img.freepik.com/premium-photo/athlete-headshot-fitness-portrait-happy-woman-gym-showing-health-wellness_817921-63166.jpg"
+              alt="Elena Ruiz" class="testimonial-avatar">
+            <div>
+              <div class="testimonial-name">Elena Ruiz</div>
+              <div class="testimonial-role">Member for 1 year</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-3">
+          <div class="testimonial-stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+              class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+          </div>
+          <div class="testimonial-quote-icon">"</div>
+          <p class="testimonial-text">Best gym I've ever been to, hands down. The community is insane — everyone's
+            grinding, no ego, just pure effort. The boxing classes are addictive.</p>
+          <div class="testimonial-author">
+            <img
+              src="https://www.shutterstock.com/image-photo/advertising-testimonial-photo-asian-young-600w-2748098213.jpg"
+              alt="Chris Nakamura" class="testimonial-avatar">
+            <div>
+              <div class="testimonial-name">Chris Nakamura</div>
+              <div class="testimonial-role">Member for 5 months</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="join">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <h2 class="cta-title">Stop Waiting.<br><span class="highlight">Start Forging.</span></h2>
+        <p class="cta-desc">Your first week is on us. Walk in, feel the energy, and decide if you're ready to become who
+          you were meant to be.</p>
+        <div class="cta-buttons">
+          <a href="#" class="btn-primary">
+            Claim Free Trial <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="#pricing" class="btn-outline">
+            Compare Plans
+          </a>
+        </div>
+        <p class="cta-note"><i class="fas fa-shield-halved"></i> No credit card required. Cancel anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="#" class="nav-logo">FORG<span>E</span></a>
+          <p class="footer-brand-desc">Where iron meets willpower. Built for those who refuse to settle. Join the
+            movement that's redefining fitness.</p>
+          <div class="footer-socials">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Quick Links</div>
+          <ul class="footer-links">
+            <li><a href="#pricing">Plans & Pricing</a></li>
+            <li><a href="#trainers">Our Trainers</a></li>
+            <li><a href="#transformations">Transformations</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#">Schedule</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Programs</div>
+          <ul class="footer-links">
+            <li><a href="#">Strength Training</a></li>
+            <li><a href="#">HIIT Classes</a></li>
+            <li><a href="#">Boxing & MMA</a></li>
+            <li><a href="#">CrossFit</a></li>
+            <li><a href="#">Recovery & Yoga</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Contact</div>
+          <ul class="footer-links">
+            <li><a href="#"><i class="fas fa-location-dot" style="margin-right:8px;color:var(--neon-green)"></i> 742
+                Iron Street, LA</a></li>
+            <li><a href="#"><i class="fas fa-phone" style="margin-right:8px;color:var(--neon-green)"></i> (310)
+                555-FORGE</a></li>
+            <li><a href="#"><i class="fas fa-envelope" style="margin-right:8px;color:var(--neon-green)"></i>
+                info@forgegym.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Developed by SR Web Developer</p>
+        <p>Designed with <span style="color:var(--neon-green)">&hearts;</span> and iron.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ========== NAVBAR SCROLL ==========
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // ========== MOBILE MENU ==========
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const mobileClose = document.getElementById('mobileClose');
+
+    function openMobile() {
+      mobileMenu.classList.add('open');
+      mobileOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobile() {
+      mobileMenu.classList.remove('open');
+      mobileOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    mobileToggle.addEventListener('click', openMobile);
+    mobileClose.addEventListener('click', closeMobile);
+    mobileOverlay.addEventListener('click', closeMobile);
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMobile);
+    });
+
+    // ========== SCROLL REVEAL ==========
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ========== COUNTER ANIMATION ==========
+    const counters = document.querySelectorAll('[data-count]');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.count);
+          let current = 0;
+          const increment = target / 60;
+          const suffix = el.closest('.hero-stat')?.querySelector('.hero-stat-label')?.textContent.includes('%') ? '%' : '+';
+
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            el.textContent = Math.floor(current).toLocaleString() + (current >= target ? suffix : '');
+          }, 25);
+
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach(el => counterObserver.observe(el));
+
+    // ========== PARALLAX ==========
+    const parallaxElements = document.querySelectorAll('.parallax-element');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      parallaxElements.forEach(el => {
+        const speed = parseFloat(el.dataset.speed) || 0.02;
+        const rect = el.getBoundingClientRect();
+        const centerY = rect.top + rect.height / 2;
+        const offset = (centerY - window.innerHeight / 2) * speed;
+        el.style.transform = `translateY(${offset}px)`;
+      });
+    }, { passive: true });
+
+    // ========== SMOOTH SCROLL ==========
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const offset = 80;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixPro Services — Fast & Reliable Home Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0A66C2',
+                        'primary-dark': '#084E96',
+                        'primary-light': '#E8F2FC',
+                        accent: '#FF7A00',
+                        'accent-dark': '#E06A00',
+                        'accent-light': '#FFF3E6',
+                        dark: '#1A1A2E',
+                        'gray-bg': '#F5F7FA',
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; overflow-x: hidden; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #F5F7FA; }
+        ::-webkit-scrollbar-thumb { background: #0A66C2; border-radius: 4px; }
+
+        /* Fade-in on scroll */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-up:nth-child(2) { transition-delay: 0.1s; }
+        .fade-up:nth-child(3) { transition-delay: 0.2s; }
+        .fade-up:nth-child(4) { transition-delay: 0.3s; }
+        .fade-up:nth-child(5) { transition-delay: 0.35s; }
+        .fade-up:nth-child(6) { transition-delay: 0.4s; }
+
+        /* Hero background pattern */
+        .hero-pattern {
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(10, 102, 194, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 122, 0, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 60% 80%, rgba(10, 102, 194, 0.05) 0%, transparent 50%);
+        }
+
+        /* Service card hover */
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(10, 102, 194, 0.15);
+        }
+
+        /* CTA pulse */
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+        .cta-pulse::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: #FF7A00;
+            z-index: -1;
+            animation: pulse-ring 2s ease-out infinite;
+        }
+
+        /* Step connector line */
+        .step-connector {
+            position: relative;
+        }
+        .step-connector::after {
+            content: '';
+            position: absolute;
+            top: 28px;
+            left: calc(50% + 36px);
+            width: calc(100% - 72px);
+            height: 3px;
+            background: linear-gradient(to right, #0A66C2, #FF7A00);
+            z-index: 0;
+        }
+        .step-connector:last-child::after { display: none; }
+
+        /* WhatsApp float */
+        .whatsapp-float {
+            animation: float-bounce 3s ease-in-out infinite;
+        }
+        @keyframes float-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Mobile sticky bar */
+        .mobile-sticky-bar {
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        .mobile-sticky-bar.show {
+            transform: translateY(0);
+        }
+
+        /* Navbar scroll state */
+        .navbar-scrolled {
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.97) !important;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Checkmark animation */
+        .check-item {
+            transition: transform 0.3s ease;
+        }
+        .check-item:hover {
+            transform: translateX(6px);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #0A66C2, #FF7A00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Map container */
+        .map-container iframe {
+            border-radius: 16px;
+        }
+
+        /* Hero illustration area */
+        .hero-illustration {
+            background: linear-gradient(135deg, #E8F2FC 0%, #FFF3E6 100%);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-illustration::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(10, 102, 194, 0.08);
+            border-radius: 50%;
+            top: -50px;
+            right: -50px;
+        }
+        .hero-illustration::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 122, 0, 0.08);
+            border-radius: 50%;
+            bottom: -40px;
+            left: -40px;
+        }
+
+        /* Input focus */
+        .form-input:focus {
+            border-color: #0A66C2;
+            box-shadow: 0 0 0 3px rgba(10, 102, 194, 0.15);
+        }
+
+        /* Toast notification */
+        .toast {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Mobile nav overlay */
+        .mobile-nav-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .mobile-nav-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .mobile-nav-panel {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        .mobile-nav-overlay.open .mobile-nav-panel {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="bg-white text-dark font-poppins">
+
+    <!-- ========== NAVBAR ========== -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 lg:h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center group-hover:bg-primary-dark transition-colors">
+                        <i class="fa-solid fa-wrench text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold text-dark">Fix<span class="text-primary">Pro</span></span>
+                </a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="#home" class="text-sm font-medium text-dark/70 hover:text-primary transition-colors">Home</a>
+                    <a href="#services" class="text-sm font-medium text-dark/70 hover:text-primary transition-colors">Services</a>
+                    <a href="#why-us" class="text-sm font-medium text-dark/70 hover:text-primary transition-colors">Why Us</a>
+                    <a href="#how-it-works" class="text-sm font-medium text-dark/70 hover:text-primary transition-colors">How It Works</a>
+                    <a href="#contact" class="text-sm font-medium text-dark/70 hover:text-primary transition-colors">Contact</a>
+                </div>
+
+                <!-- Desktop CTA -->
+                <div class="hidden lg:flex items-center gap-4">
+                    <a href="tel:+15551234567" class="flex items-center gap-2 text-sm font-medium text-dark/70 hover:text-primary transition-colors">
+                        <i class="fa-solid fa-phone text-primary"></i>
+                        (555) 123-4567
+                    </a>
+                    <a href="tel:+15551234567" class="relative inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white font-semibold text-sm px-6 py-3 rounded-full transition-all duration-200 hover:shadow-lg hover:shadow-accent/30 cta-pulse">
+                        <i class="fa-solid fa-phone-volume"></i>
+                        Call Now
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="mobileMenuBtn" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-100 transition-colors" aria-label="Open menu">
+                    <i class="fa-solid fa-bars text-xl text-dark"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Nav Overlay -->
+    <div id="mobileNav" class="mobile-nav-overlay fixed inset-0 z-[60] lg:hidden">
+        <div class="absolute inset-0 bg-black/40" id="mobileNavBg"></div>
+        <div class="mobile-nav-panel absolute top-0 right-0 w-72 h-full bg-white shadow-2xl">
+            <div class="flex items-center justify-between p-5 border-b border-gray-100">
+                <span class="text-lg font-bold text-dark">Fix<span class="text-primary">Pro</span></span>
+                <button id="mobileNavClose" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-gray-100 transition-colors" aria-label="Close menu">
+                    <i class="fa-solid fa-xmark text-xl text-dark"></i>
+                </button>
+            </div>
+            <div class="flex flex-col p-5 gap-1">
+                <a href="#home" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-dark/70 hover:text-primary hover:bg-primary-light transition-all font-medium">
+                    <i class="fa-solid fa-house w-5 text-center"></i> Home
+                </a>
+                <a href="#services" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-dark/70 hover:text-primary hover:bg-primary-light transition-all font-medium">
+                    <i class="fa-solid fa-screwdriver-wrench w-5 text-center"></i> Services
+                </a>
+                <a href="#why-us" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-dark/70 hover:text-primary hover:bg-primary-light transition-all font-medium">
+                    <i class="fa-solid fa-star w-5 text-center"></i> Why Us
+                </a>
+                <a href="#how-it-works" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-dark/70 hover:text-primary hover:bg-primary-light transition-all font-medium">
+                    <i class="fa-solid fa-list-check w-5 text-center"></i> How It Works
+                </a>
+                <a href="#contact" class="mobile-nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-dark/70 hover:text-primary hover:bg-primary-light transition-all font-medium">
+                    <i class="fa-solid fa-envelope w-5 text-center"></i> Contact
+                </a>
+            </div>
+            <div class="p-5 border-t border-gray-100">
+                <a href="tel:+15551234567" class="flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white font-semibold px-6 py-3.5 rounded-full transition-all w-full">
+                    <i class="fa-solid fa-phone-volume"></i>
+                    Call Now — (555) 123-4567
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section id="home" class="hero-pattern relative pt-24 lg:pt-32 pb-16 lg:pb-24 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                <!-- Left Content -->
+                <div class="text-center lg:text-left">
+                    <div class="fade-up inline-flex items-center gap-2 bg-accent-light text-accent-dark text-xs font-semibold px-4 py-2 rounded-full mb-6">
+                        <i class="fa-solid fa-bolt"></i>
+                        Same-Day Service Available
+                    </div>
+                    <h1 class="fade-up text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-dark mb-5">
+                        Fast & Reliable<br>
+                        <span class="gradient-text">Home Services</span>
+                    </h1>
+                    <p class="fade-up text-base sm:text-lg text-dark/60 leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
+                        Electricians, plumbers, and repair experts at your doorstep. Professional service with guaranteed satisfaction — every single time.
+                    </p>
+                    <div class="fade-up flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-8">
+                        <a href="tel:+15551234567" class="relative inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white font-bold text-base px-8 py-4 rounded-full transition-all duration-200 hover:shadow-xl hover:shadow-accent/30 cta-pulse w-full sm:w-auto justify-center">
+                            <i class="fa-solid fa-phone-volume"></i>
+                            Call Now
+                        </a>
+                        <a href="#contact" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold text-base px-8 py-4 rounded-full transition-all duration-200 hover:shadow-xl hover:shadow-primary/20 w-full sm:w-auto justify-center">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            Get Service
+                        </a>
+                    </div>
+                    <!-- Trust Badge -->
+                    <div class="fade-up flex items-center gap-4 justify-center lg:justify-start">
+                        <div class="flex -space-x-3">
+                            <img src="https://picsum.photos/seed/face1/40/40.jpg" class="w-9 h-9 rounded-full border-2 border-white object-cover" alt="Customer">
+                            <img src="https://picsum.photos/seed/face2/40/40.jpg" class="w-9 h-9 rounded-full border-2 border-white object-cover" alt="Customer">
+                            <img src="https://picsum.photos/seed/face3/40/40.jpg" class="w-9 h-9 rounded-full border-2 border-white object-cover" alt="Customer">
+                            <img src="https://picsum.photos/seed/face4/40/40.jpg" class="w-9 h-9 rounded-full border-2 border-white object-cover" alt="Customer">
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1 text-amber-400 text-sm">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star-half-stroke"></i>
+                                <span class="text-dark font-semibold ml-1">4.8</span>
+                            </div>
+                            <p class="text-xs text-dark/50">Trusted by <strong class="text-dark/70">500+</strong> customers</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Illustration -->
+                <div class="fade-up hidden lg:block">
+                    <div class="hero-illustration p-10 flex items-center justify-center min-h-[420px]">
+                        <div class="relative z-10 text-center">
+                            <div class="w-48 h-48 mx-auto bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                                <i class="fa-solid fa-house-chimney-crack text-primary text-7xl"></i>
+                            </div>
+                            <div class="flex items-center justify-center gap-6 mt-6">
+                                <div class="bg-white rounded-2xl shadow-lg p-4 flex flex-col items-center">
+                                    <i class="fa-solid fa-bolt text-accent text-2xl mb-1"></i>
+                                    <span class="text-xs font-medium text-dark/70">Electrical</span>
+                                </div>
+                                <div class="bg-white rounded-2xl shadow-lg p-4 flex flex-col items-center">
+                                    <i class="fa-solid fa-faucet-drip text-primary text-2xl mb-1"></i>
+                                    <span class="text-xs font-medium text-dark/70">Plumbing</span>
+                                </div>
+                                <div class="bg-white rounded-2xl shadow-lg p-4 flex flex-col items-center">
+                                    <i class="fa-solid fa-snowflake text-accent text-2xl mb-1"></i>
+                                    <span class="text-xs font-medium text-dark/70">AC Repair</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 lg:mt-16">
+            <div class="fade-up bg-white rounded-2xl shadow-xl shadow-dark/5 border border-gray-100 grid grid-cols-2 lg:grid-cols-4 divide-x divide-gray-100">
+                <div class="p-6 text-center">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-primary">500+</p>
+                    <p class="text-xs sm:text-sm text-dark/50 mt-1">Happy Customers</p>
+                </div>
+                <div class="p-6 text-center">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-primary">50+</p>
+                    <p class="text-xs sm:text-sm text-dark/50 mt-1">Expert Professionals</p>
+                </div>
+                <div class="p-6 text-center">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-accent">24/7</p>
+                    <p class="text-xs sm:text-sm text-dark/50 mt-1">Emergency Support</p>
+                </div>
+                <div class="p-6 text-center">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-primary">4.8★</p>
+                    <p class="text-xs sm:text-sm text-dark/50 mt-1">Average Rating</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SERVICES SECTION ========== -->
+    <section id="services" class="py-16 lg:py-24 bg-gray-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 lg:mb-16">
+                <p class="fade-up text-accent font-semibold text-sm tracking-widest uppercase mb-3">Our Services</p>
+                <h2 class="fade-up text-3xl sm:text-4xl lg:text-5xl font-extrabold text-dark mb-4">What We <span class="gradient-text">Fix</span> For You</h2>
+                <p class="fade-up text-dark/50 max-w-2xl mx-auto">From minor repairs to major installations — our certified experts handle it all with care and precision.</p>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+                <!-- Card 1 -->
+                <div class="fade-up service-card bg-white rounded-2xl p-6 lg:p-8 border border-gray-100 cursor-pointer group">
+                    <div class="w-14 h-14 bg-primary-light rounded-2xl flex items-center justify-center mb-5 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-faucet-drip text-primary text-xl group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-bold text-dark text-base lg:text-lg mb-2">Plumbing</h3>
+                    <p class="text-sm text-dark/50 leading-relaxed">Leak repairs, pipe fitting, drain cleaning & bathroom installations.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="fade-up service-card bg-white rounded-2xl p-6 lg:p-8 border border-gray-100 cursor-pointer group">
+                    <div class="w-14 h-14 bg-accent-light rounded-2xl flex items-center justify-center mb-5 group-hover:bg-accent group-hover:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-bolt text-accent text-xl group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-bold text-dark text-base lg:text-lg mb-2">Electrical</h3>
+                    <p class="text-sm text-dark/50 leading-relaxed">Wiring, switchboard repair, fuse fixes & complete rewiring.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="fade-up service-card bg-white rounded-2xl p-6 lg:p-8 border border-gray-100 cursor-pointer group">
+                    <div class="w-14 h-14 bg-primary-light rounded-2xl flex items-center justify-center mb-5 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-snowflake text-primary text-xl group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-bold text-dark text-base lg:text-lg mb-2">AC Repair</h3>
+                    <p class="text-sm text-dark/50 leading-relaxed">AC servicing, gas refill, compressor repair & new installation.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="fade-up service-card bg-white rounded-2xl p-6 lg:p-8 border border-gray-100 cursor-pointer group">
+                    <div class="w-14 h-14 bg-accent-light rounded-2xl flex items-center justify-center mb-5 group-hover:bg-accent group-hover:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-paint-roller text-accent text-xl group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-bold text-dark text-base lg:text-lg mb-2">Painting</h3>
+                    <p class="text-sm text-dark/50 leading-relaxed">Interior & exterior painting, wall finishing & texture work.</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="fade-up service-card bg-white rounded-2xl p-6 lg:p-8 border border-gray-100 cursor-pointer group">
+                    <div class="w-14 h-14 bg-accent-light rounded-2xl flex items-center justify-center mb-5 group-hover:bg-accent group-hover:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-lock text-accent text-xl group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-bold text-dark text-base lg:text-lg mb-2">Locksmith</h3>
+                    <p class="text-sm text-dark/50 leading-relaxed">Door lock repair, key duplication & smart lock installation.</p>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="fade-up service-card bg-white rounded-2xl p-6 lg:p-8 border border-gray-100 cursor-pointer group">
+                    <div class="w-14 h-14 bg-primary-light rounded-2xl flex items-center justify-center mb-5 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-fan text-primary text-xl group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-bold text-dark text-base lg:text-lg mb-2">Appliance Repair</h3>
+                    <p class="text-sm text-dark/50 leading-relaxed">Washing machine, fridge, microwave & geyser repairs.</p>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="fade-up service-card bg-white rounded-2xl p-6 lg:p-8 border border-gray-100 cursor-pointer group">
+                    <div class="w-14 h-14 bg-primary-light rounded-2xl flex items-center justify-center mb-5 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-couch text-primary text-xl group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-bold text-dark text-base lg:text-lg mb-2">Carpentry</h3>
+                    <p class="text-sm text-dark/50 leading-relaxed">Furniture repair, door fixing, shelving & wood polishing.</p>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="fade-up service-card bg-white rounded-2xl p-6 lg:p-8 border border-gray-100 cursor-pointer group">
+                    <div class="w-14 h-14 bg-accent-light rounded-2xl flex items-center justify-center mb-5 group-hover:bg-accent group-hover:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-broom text-accent text-xl group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="font-bold text-dark text-base lg:text-lg mb-2">Deep Cleaning</h3>
+                    <p class="text-sm text-dark/50 leading-relaxed">Home deep clean, kitchen scrub & post-renovation cleaning.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== WHY CHOOSE US ========== -->
+    <section id="why-us" class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <!-- Left -->
+                <div>
+                    <p class="fade-up text-accent font-semibold text-sm tracking-widest uppercase mb-3">Why Choose Us</p>
+                    <h2 class="fade-up text-3xl sm:text-4xl lg:text-5xl font-extrabold text-dark mb-6">We're Not Just Technicians.<br><span class="gradient-text">We're Your Neighbors.</span></h2>
+                    <p class="fade-up text-dark/50 leading-relaxed mb-10">Every FixPro professional is background-checked, skill-tested, and committed to treating your home like their own. No surprises, no excuses.</p>
+                    <a href="tel:+15551234567" class="fade-up inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white font-bold px-8 py-4 rounded-full transition-all duration-200 hover:shadow-xl hover:shadow-accent/30">
+                        <i class="fa-solid fa-phone-volume"></i>
+                        Get Started Today
+                    </a>
+                </div>
+
+                <!-- Right — Check List -->
+                <div class="space-y-5">
+                    <div class="fade-up check-item flex items-start gap-4 bg-gray-bg rounded-2xl p-5 border border-gray-100">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-user-check text-green-600 text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-dark text-base mb-1">Verified Professionals</h4>
+                            <p class="text-sm text-dark/50">Every technician is background-verified and skill-certified before they enter your home.</p>
+                        </div>
+                    </div>
+
+                    <div class="fade-up check-item flex items-start gap-4 bg-gray-bg rounded-2xl p-5 border border-gray-100">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-clock text-primary text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-dark text-base mb-1">Same-Day Service</h4>
+                            <p class="text-sm text-dark/50">Book in the morning, get it fixed by afternoon. No long waits, no rescheduling.</p>
+                        </div>
+                    </div>
+
+                    <div class="fade-up check-item flex items-start gap-4 bg-gray-bg rounded-2xl p-5 border border-gray-100">
+                        <div class="w-12 h-12 bg-accent-light rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-tags text-accent text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-dark text-base mb-1">Affordable Pricing</h4>
+                            <p class="text-sm text-dark/50">Transparent upfront pricing with no hidden charges. What we quote is what you pay.</p>
+                        </div>
+                    </div>
+
+                    <div class="fade-up check-item flex items-start gap-4 bg-gray-bg rounded-2xl p-5 border border-gray-100">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-headset text-purple-600 text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-dark text-base mb-1">24/7 Support</h4>
+                            <p class="text-sm text-dark/50">Emergencies don't wait — neither do we. Call us anytime, day or night.</p>
+                        </div>
+                    </div>
+
+                    <div class="fade-up check-item flex items-start gap-4 bg-gray-bg rounded-2xl p-5 border border-gray-100">
+                        <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-shield-halved text-emerald-600 text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-dark text-base mb-1">30-Day Warranty</h4>
+                            <p class="text-sm text-dark/50">Not satisfied? We'll redo the job for free within 30 days. Your satisfaction guaranteed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== HOW IT WORKS ========== -->
+    <section id="how-it-works" class="py-16 lg:py-24 bg-gray-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 lg:mb-16">
+                <p class="fade-up text-accent font-semibold text-sm tracking-widest uppercase mb-3">How It Works</p>
+                <h2 class="fade-up text-3xl sm:text-4xl lg:text-5xl font-extrabold text-dark mb-4">Three Simple <span class="gradient-text">Steps</span></h2>
+                <p class="fade-up text-dark/50 max-w-2xl mx-auto">Getting your home fixed has never been easier. Just three steps and you're done.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 lg:gap-6 relative">
+                <!-- Step 1 -->
+                <div class="fade-up step-connector text-center relative z-10">
+                    <div class="w-[72px] h-[72px] bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/20 rotate-3 hover:rotate-0 transition-transform duration-300">
+                        <i class="fa-solid fa-calendar-check text-white text-2xl"></i>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                        <span class="inline-flex items-center justify-center w-8 h-8 bg-primary-light text-primary font-bold text-sm rounded-full mb-3">1</span>
+                        <h3 class="font-bold text-dark text-lg mb-2">Book Service</h3>
+                        <p class="text-sm text-dark/50 leading-relaxed">Call us or fill the form. Tell us what's broken and pick a time that works for you.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="fade-up step-connector text-center relative z-10">
+                    <div class="w-[72px] h-[72px] bg-accent rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-accent/20 -rotate-3 hover:rotate-0 transition-transform duration-300">
+                        <i class="fa-solid fa-user-tie text-white text-2xl"></i>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                        <span class="inline-flex items-center justify-center w-8 h-8 bg-accent-light text-accent font-bold text-sm rounded-full mb-3">2</span>
+                        <h3 class="font-bold text-dark text-lg mb-2">We Assign Expert</h3>
+                        <p class="text-sm text-dark/50 leading-relaxed">We send the best-matched, verified professional to your doorstep — on time, every time.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="fade-up text-center relative z-10">
+                    <div class="w-[72px] h-[72px] bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/20 rotate-3 hover:rotate-0 transition-transform duration-300">
+                        <i class="fa-solid fa-circle-check text-white text-2xl"></i>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                        <span class="inline-flex items-center justify-center w-8 h-8 bg-primary-light text-primary font-bold text-sm rounded-full mb-3">3</span>
+                        <h3 class="font-bold text-dark text-lg mb-2">Get It Fixed</h3>
+                        <p class="text-sm text-dark/50 leading-relaxed">Sit back while our expert fixes the issue. Pay only when you're 100% satisfied.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS ========== -->
+    <section class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 lg:mb-16">
+                <p class="fade-up text-accent font-semibold text-sm tracking-widest uppercase mb-3">Testimonials</p>
+                <h2 class="fade-up text-3xl sm:text-4xl lg:text-5xl font-extrabold text-dark mb-4">What Our Customers <span class="gradient-text">Say</span></h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="fade-up bg-gray-bg rounded-2xl p-6 lg:p-8 border border-gray-100 relative">
+                    <i class="fa-solid fa-quote-left text-primary/10 text-5xl absolute top-4 right-6"></i>
+                    <div class="flex items-center gap-1 text-amber-400 mb-4">
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                    </div>
+                    <p class="text-sm text-dark/60 leading-relaxed mb-6">"The electrician arrived within an hour and fixed my short circuit issue perfectly. Very professional and clean work. Highly recommended!"</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/review1/48/48.jpg" class="w-11 h-11 rounded-full object-cover" alt="Sarah M.">
+                        <div>
+                            <p class="font-semibold text-dark text-sm">Sarah Mitchell</p>
+                            <p class="text-xs text-dark/40">Homeowner</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fade-up bg-gray-bg rounded-2xl p-6 lg:p-8 border border-gray-100 relative">
+                    <i class="fa-solid fa-quote-left text-primary/10 text-5xl absolute top-4 right-6"></i>
+                    <div class="flex items-center gap-1 text-amber-400 mb-4">
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                    </div>
+                    <p class="text-sm text-dark/60 leading-relaxed mb-6">"Called for a plumbing emergency at midnight. They actually picked up and sent someone within 40 minutes. Lifesavers! Fair pricing too."</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/review2/48/48.jpg" class="w-11 h-11 rounded-full object-cover" alt="James R.">
+                        <div>
+                            <p class="font-semibold text-dark text-sm">James Rodriguez</p>
+                            <p class="text-xs text-dark/40">Apartment Resident</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fade-up bg-gray-bg rounded-2xl p-6 lg:p-8 border border-gray-100 relative">
+                    <i class="fa-solid fa-quote-left text-primary/10 text-5xl absolute top-4 right-6"></i>
+                    <div class="flex items-center gap-1 text-amber-400 mb-4">
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star text-sm"></i>
+                        <i class="fa-solid fa-star-half-stroke text-sm"></i>
+                    </div>
+                    <p class="text-sm text-dark/60 leading-relaxed mb-6">"Got my entire house painted by FixPro. The team was punctual, neat, and the finish quality was better than I expected. Will use again!"</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/review3/48/48.jpg" class="w-11 h-11 rounded-full object-cover" alt="Emily T.">
+                        <div>
+                            <p class="font-semibold text-dark text-sm">Emily Thompson</p>
+                            <p class="text-xs text-dark/40">Business Owner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA BANNER ========== -->
+    <section class="relative overflow-hidden">
+        <div class="bg-primary relative">
+            <!-- Decorative elements -->
+            <div class="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-accent/10 rounded-full translate-x-1/3 translate-y-1/3"></div>
+            <div class="absolute top-1/2 left-1/4 w-3 h-3 bg-accent rounded-full opacity-60"></div>
+            <div class="absolute top-1/3 right-1/3 w-2 h-2 bg-white rounded-full opacity-40"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 relative z-10">
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
+                    <div>
+                        <h2 class="fade-up text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-3">Need Help Right Now?</h2>
+                        <p class="fade-up text-white/70 text-base sm:text-lg max-w-xl mx-auto lg:mx-0">Don't let a broken pipe or faulty wire ruin your day. Our experts are standing by — just one call away.</p>
+                    </div>
+                    <div class="fade-up flex-shrink-0">
+                        <a href="tel:+15551234567" class="inline-flex items-center gap-3 bg-accent hover:bg-accent-dark text-white font-extrabold text-lg px-10 py-5 rounded-full transition-all duration-200 hover:shadow-2xl hover:shadow-accent/40 cta-pulse">
+                            <i class="fa-solid fa-phone-volume text-xl"></i>
+                            Call Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT SECTION ========== -->
+    <section id="contact" class="py-16 lg:py-24 bg-gray-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 lg:mb-16">
+                <p class="fade-up text-accent font-semibold text-sm tracking-widest uppercase mb-3">Get In Touch</p>
+                <h2 class="fade-up text-3xl sm:text-4xl lg:text-5xl font-extrabold text-dark mb-4">Contact <span class="gradient-text">Us</span></h2>
+                <p class="fade-up text-dark/50 max-w-2xl mx-auto">Have a question or need a quote? Reach out to us through any of the channels below.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
+                <!-- Left: Contact Info + Map -->
+                <div class="space-y-6">
+                    <div class="fade-up bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 bg-primary-light rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-phone text-primary text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark text-sm mb-1">Phone</h4>
+                                <a href="tel:+15551234567" class="text-primary hover:text-primary-dark font-medium transition-colors">(555) 123-4567</a>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 bg-accent-light rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-envelope text-accent text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark text-sm mb-1">Email</h4>
+                                <a href="mailto:hello@fixpro.com" class="text-primary hover:text-primary-dark font-medium transition-colors">hello@fixpro.com</a>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 bg-primary-light rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-location-dot text-primary text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark text-sm mb-1">Address</h4>
+                                <p class="text-sm text-dark/60">123 Main Street, Suite 200<br>Springfield, IL 62701</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-clock text-green-600 text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark text-sm mb-1">Hours</h4>
+                                <p class="text-sm text-dark/60">Mon–Sat: 8 AM – 8 PM<br>Sun: 9 AM – 5 PM<br><span class="text-accent font-semibold">Emergency: 24/7</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fade-up map-container rounded-2xl overflow-hidden shadow-sm border border-gray-100 h-[240px]">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3105.3095457279557!2d-89.65014832416758!3d39.78172197154658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x887538e1f8b0b0b7%3A0x1234567890abcdef!2sSpringfield%2C%20IL!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Right: Contact Form -->
+                <div class="fade-up">
+                    <form id="contactForm" class="bg-white rounded-2xl p-6 lg:p-10 border border-gray-100 shadow-sm">
+                        <h3 class="font-bold text-dark text-xl mb-6">Request a Callback</h3>
+                        <div class="space-y-5">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-dark/70 mb-2">Your Name</label>
+                                <input 
+                                    type="text" 
+                                    id="name" 
+                                    placeholder="John Smith" 
+                                    class="form-input w-full px-4 py-3.5 rounded-xl border border-gray-200 text-dark placeholder:text-dark/30 outline-none transition-all text-sm"
+                                    required
+                                >
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-dark/70 mb-2">Phone Number</label>
+                                <input 
+                                    type="tel" 
+                                    id="phone" 
+                                    placeholder="(555) 000-0000" 
+                                    class="form-input w-full px-4 py-3.5 rounded-xl border border-gray-200 text-dark placeholder:text-dark/30 outline-none transition-all text-sm"
+                                    required
+                                >
+                            </div>
+                            <div>
+                                <label for="service" class="block text-sm font-medium text-dark/70 mb-2">Service Needed</label>
+                                <select 
+                                    id="service" 
+                                    class="form-input w-full px-4 py-3.5 rounded-xl border border-gray-200 text-dark outline-none transition-all text-sm appearance-none bg-white cursor-pointer"
+                                >
+                                    <option value="">Select a service</option>
+                                    <option value="plumbing">Plumbing</option>
+                                    <option value="electrical">Electrical</option>
+                                    <option value="ac-repair">AC Repair</option>
+                                    <option value="painting">Painting</option>
+                                    <option value="locksmith">Locksmith</option>
+                                    <option value="appliance">Appliance Repair</option>
+                                    <option value="carpentry">Carpentry</option>
+                                    <option value="cleaning">Deep Cleaning</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-dark/70 mb-2">Brief Description</label>
+                                <textarea 
+                                    id="message" 
+                                    rows="4" 
+                                    placeholder="Describe your issue briefly..." 
+                                    class="form-input w-full px-4 py-3.5 rounded-xl border border-gray-200 text-dark placeholder:text-dark/30 outline-none transition-all text-sm resize-none"
+                                ></textarea>
+                            </div>
+                            <button 
+                                type="submit" 
+                                class="w-full bg-accent hover:bg-accent-dark text-white font-bold text-base px-8 py-4 rounded-full transition-all duration-200 hover:shadow-xl hover:shadow-accent/30 flex items-center justify-center gap-2"
+                            >
+                                <i class="fa-solid fa-paper-plane"></i>
+                                Submit Request
+                            </button>
+                        </div>
+                        <p class="text-xs text-dark/40 mt-4 text-center">We'll call you back within 15 minutes during business hours.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-dark text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+                <!-- Col 1: Brand -->
+                <div class="sm:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-2 mb-5">
+                        <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-wrench text-white text-lg"></i>
+                        </div>
+                        <span class="text-xl font-bold">Fix<span class="text-accent">Pro</span></span>
+                    </div>
+                    <p class="text-sm text-white/50 leading-relaxed mb-6">Your trusted local home service partner. Fast, reliable, and affordable — because your home deserves the best.</p>
+                    <div class="flex items-center gap-3">
+                        <a href="#" class="w-10 h-10 bg-white/10 hover:bg-primary rounded-xl flex items-center justify-center transition-colors" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook-f text-sm"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 hover:bg-primary rounded-xl flex items-center justify-center transition-colors" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 hover:bg-primary rounded-xl flex items-center justify-center transition-colors" aria-label="Twitter">
+                            <i class="fa-brands fa-x-twitter text-sm"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 hover:bg-accent rounded-xl flex items-center justify-center transition-colors" aria-label="YouTube">
+                            <i class="fa-brands fa-youtube text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h4 class="font-bold text-sm uppercase tracking-wider text-white/80 mb-5">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-sm text-white/50 hover:text-accent transition-colors">Home</a></li>
+                        <li><a href="#services" class="text-sm text-white/50 hover:text-accent transition-colors">Services</a></li>
+                        <li><a href="#why-us" class="text-sm text-white/50 hover:text-accent transition-colors">Why Choose Us</a></li>
+                        <li><a href="#how-it-works" class="text-sm text-white/50 hover:text-accent transition-colors">How It Works</a></li>
+                        <li><a href="#contact" class="text-sm text-white/50 hover:text-accent transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Services -->
+                <div>
+                    <h4 class="font-bold text-sm uppercase tracking-wider text-white/80 mb-5">Services</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#services" class="text-sm text-white/50 hover:text-accent transition-colors">Plumbing</a></li>
+                        <li><a href="#services" class="text-sm text-white/50 hover:text-accent transition-colors">Electrical</a></li>
+                        <li><a href="#services" class="text-sm text-white/50 hover:text-accent transition-colors">AC Repair</a></li>
+                        <li><a href="#services" class="text-sm text-white/50 hover:text-accent transition-colors">Painting</a></li>
+                        <li><a href="#services" class="text-sm text-white/50 hover:text-accent transition-colors">Deep Cleaning</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Contact -->
+                <div>
+                    <h4 class="font-bold text-sm uppercase tracking-wider text-white/80 mb-5">Contact Us</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-sm text-white/50">
+                            <i class="fa-solid fa-phone text-accent text-xs"></i>
+                            <a href="tel:+15551234567" class="hover:text-accent transition-colors">(555) 123-4567</a>
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-white/50">
+                            <i class="fa-solid fa-envelope text-accent text-xs"></i>
+                            <a href="mailto:hello@fixpro.com" class="hover:text-accent transition-colors">hello@fixpro.com</a>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-white/50">
+                            <i class="fa-solid fa-location-dot text-accent text-xs mt-1"></i>
+                            <span>123 Main Street, Suite 200<br>Springfield, IL 62701</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom bar -->
+        <div class="border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <p class="text-xs text-white/40">Developed by SR Web Developer</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="text-xs text-white/40 hover:text-accent transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-xs text-white/40 hover:text-accent transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== FLOATING WHATSAPP BUTTON ========== -->
+    <a 
+        href="https://wa.me/15551234567?text=Hi%20FixPro%2C%20I%20need%20help%20with%20a%20home%20service." 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="whatsapp-float fixed bottom-24 lg:bottom-8 right-5 z-40 w-14 h-14 bg-[#25D366] hover:bg-[#20BD5A] rounded-full flex items-center justify-center shadow-lg shadow-[#25D366]/30 transition-colors"
+        aria-label="Chat on WhatsApp"
+    >
+        <i class="fa-brands fa-whatsapp text-white text-2xl"></i>
+    </a>
+
+    <!-- ========== MOBILE STICKY CALL BAR ========== -->
+    <div id="mobileStickyBar" class="mobile-sticky-bar fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-4 py-3">
+        <div class="flex items-center gap-3">
+            <a 
+                href="https://wa.me/15551234567?text=Hi%20FixPro%2C%20I%20need%20help." 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="flex-1 flex items-center justify-center gap-2 bg-[#25D366] text-white font-semibold text-sm py-3.5 rounded-xl transition-colors hover:bg-[#20BD5A]"
+            >
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+                WhatsApp
+            </a>
+            <a 
+                href="tel:+15551234567" 
+                class="flex-1 flex items-center justify-center gap-2 bg-accent text-white font-bold text-sm py-3.5 rounded-xl transition-colors hover:bg-accent-dark"
+            >
+                <i class="fa-solid fa-phone-volume"></i>
+                Call Now
+            </a>
+        </div>
+    </div>
+
+    <!-- ========== TOAST NOTIFICATION ========== -->
+    <div id="toast" class="toast fixed bottom-24 lg:bottom-8 left-1/2 -translate-x-1/2 z-[70] bg-dark text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 max-w-sm w-[calc(100%-2rem)]">
+        <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-check text-white"></i>
+        </div>
+        <div>
+            <p class="font-semibold text-sm">Request Submitted!</p>
+            <p class="text-xs text-white/60">We'll call you back within 15 minutes.</p>
+        </div>
+    </div>
+
+    <!-- ========== JAVASCRIPT ========== -->
+    <script>
+        // ---- Navbar scroll effect ----
+        const navbar = document.getElementById('navbar');
+        const mobileStickyBar = document.getElementById('mobileStickyBar');
+        let lastScrollY = 0;
+
+        function handleScroll() {
+            const scrollY = window.scrollY;
+
+            // Navbar shadow
+            if (scrollY > 20) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+
+            // Mobile sticky bar — show after scrolling past hero
+            if (scrollY > 500) {
+                mobileStickyBar.classList.add('show');
+            } else {
+                mobileStickyBar.classList.remove('show');
+            }
+
+            lastScrollY = scrollY;
+        }
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll(); // Initial check
+
+        // ---- Mobile nav ----
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNavClose = document.getElementById('mobileNavClose');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileNavBg = document.getElementById('mobileNavBg');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function openMobileNav() {
+            mobileNav.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileNav() {
+            mobileNav.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuBtn.addEventListener('click', openMobileNav);
+        mobileNavClose.addEventListener('click', closeMobileNav);
+        mobileNavBg.addEventListener('click', closeMobileNav);
+        mobileNavLinks.forEach(link => link.addEventListener('click', closeMobileNav));
+
+        // ---- Smooth scroll for anchor links ----
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    const navHeight = navbar.offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ---- Fade-in on scroll (Intersection Observer) ----
+        const fadeElements = document.querySelectorAll('.fade-up');
+        
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
+
+        // ---- Contact Form (UI only, no backend) ----
+        const contactForm = document.getElementById('contactForm');
+        const toast = document.getElementById('toast');
+
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            if (!name || !phone) return;
+
+            // Show toast
+            toast.classList.add('show');
+
+            // Reset form
+            contactForm.reset();
+
+            // Hide toast after 4 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        });
+
+        // ---- Active nav link highlighting ----
+        const sections = document.querySelectorAll('section[id]');
+        
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    // Desktop nav
+                    document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('text-primary');
+                            link.classList.remove('text-dark/70');
+                        } else {
+                            link.classList.remove('text-primary');
+                            link.classList.add('text-dark/70');
+                        }
+                    });
+                }
+            });
+        }, {
+            threshold: 0.3,
+            rootMargin: '-80px 0px -50% 0px'
+        });
+
+        sections.forEach(section => sectionObserver.observe(section));
+    </script>
+</body>
+</html>
