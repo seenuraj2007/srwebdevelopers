@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Freelance Web Developer specializing in fast, responsive, and user-friendly websites that grow your business.">
+    <meta name="keywords" content="web developer, freelance, website development, UI/UX design, React, Tailwind CSS">
+    <meta name="author" content="SR Web Developer">
+    <meta property="og:title" content="SR — Freelance Web Developer">
+    <meta property="og:description"
+        content="I build modern websites that grow your business. Fast, responsive, and conversion-focused.">
+    <meta property="og:type" content="website">
+    <title>SR — Freelance Web Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 'inter': ['Inter', 'sans-serif'] },
+                    colors: {
+                        accent: {
+                            50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe',
+                            300: '#a5b4fc', 400: '#818cf8', 500: '#6366f1',
+                            600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Logo filter for dark backgrounds */
+        .logo-dark {
+            filter: invert(1) hue-rotate(180deg);
+            transition: filter 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* Loader */
+        .loader-wrapper {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .loader-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-bar {
+            width: 120px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-bar::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: #4f46e5;
+            border-radius: 10px;
+            animation: loadBar 1.2s ease-in-out forwards;
+        }
+
+        @keyframes loadBar {
+            0% {
+                width: 0;
+            }
+
+            60% {
+                width: 80%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .reveal-delay-4 {
+            transition-delay: 0.4s;
+        }
+
+        .reveal-delay-5 {
+            transition-delay: 0.5s;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .glass-strong {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #4f46e5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Hero glow */
+        .hero-glow {
+            position: absolute;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-glow-2 {
+            position: absolute;
+            top: 10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(129, 140, 248, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Grid background */
+        .grid-bg {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Navbar */
+        .navbar {
+            transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.8);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link {
+            position: relative;
+            color: #a3a3a3;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #fff;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4f46e5;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: #4f46e5;
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(0);
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            border-radius: 10px;
+        }
+
+        /* Skill card */
+        .skill-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 32px 24px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.05) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .skill-card:hover {
+            border-color: rgba(79, 70, 229, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-card:hover::before {
+            opacity: 1;
+        }
+
+        .skill-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        .skill-progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #4f46e5, #818cf8);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .skill-card.active .skill-progress-bar {
+            transform: scaleX(1);
+        }
+
+        /* Project card */
+        .project-card {
+            border-radius: 24px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project-card:hover {
+            border-color: rgba(79, 70, 229, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-card .project-img {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-card .project-img img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        .project-card:hover .project-img img {
+            transform: scale(1.05);
+        }
+
+        .project-card .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        /* Service card */
+        .service-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 40px 32px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .service-card:hover {
+            border-color: rgba(79, 70, 229, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(79, 70, 229, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            background: rgba(79, 70, 229, 0.2);
+            box-shadow: 0 0 30px rgba(79, 70, 229, 0.15);
+        }
+
+        /* Testimonial card */
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 36px;
+            transition: all 0.4s ease;
+        }
+
+        .testimonial-card:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Contact form */
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input::placeholder {
+            color: #525252;
+        }
+
+        .form-input:focus {
+            border-color: #4f46e5;
+            background: rgba(79, 70, 229, 0.04);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 28px;
+            border-radius: 14px;
+            background: rgba(79, 70, 229, 0.9);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(79, 70, 229, 0.15);
+            pointer-events: none;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Section helpers */
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #4f46e5, #818cf8);
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #4f46e5;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: #4f46e5;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.95);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .mobile-menu.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-menu a {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #a3a3a3;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: #fff;
+        }
+
+        /* Code block */
+        .code-block {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #a3a3a3;
+        }
+
+        .code-block .keyword {
+            color: #c084fc;
+        }
+
+        .code-block .function {
+            color: #60a5fa;
+        }
+
+        .code-block .string {
+            color: #34d399;
+        }
+
+        .code-block .comment {
+            color: #525252;
+        }
+
+        .code-block .variable {
+            color: #f9a8d4;
+        }
+
+        .code-block .bracket {
+            color: #737373;
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 2px;
+            height: 18px;
+            background: #4f46e5;
+            margin-left: 2px;
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #404040;
+        }
+
+        @media (max-width: 768px) {
+            .hero-glow {
+                width: 500px;
+                height: 500px;
+            }
+
+            .project-card .project-img img {
+                height: 200px;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+
+<body class="font-inter">
+
+    <!-- Loader -->
+    <div class="loader-wrapper" id="loader">
+        <div>
+            <p
+                style="font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: #525252; margin-bottom: 16px; text-align: center;">
+                Loading</p>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Floating Particles -->
+    <div id="particles" style="position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home" onclick="closeMobileMenu()">Home</a>
+        <a href="#about" onclick="closeMobileMenu()">About</a>
+        <a href="#skills" onclick="closeMobileMenu()">Skills</a>
+        <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+        <a href="#services" onclick="closeMobileMenu()">Services</a>
+        <a href="#testimonials" onclick="closeMobileMenu()">Testimonials</a>
+        <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar fixed top-0 left-0 right-0 z-50 border-b border-transparent" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#home" class="flex items-center gap-3 text-white no-underline">
+                <img src="https://z-cdn-media.chatglm.cn/files/907fa9b6-c90a-4d7c-9d67-8e186ad26c42.jpg?auth_key=1875031917-2b9c03c9f8bd40379a972896f199983d-0-d8cd0a5b5e8e80fd295379fb17619833"
+                    alt="SR Web Developer" class="logo-dark h-16 w-auto object-contain">
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about" class="nav-link text-sm font-medium no-underline">About</a>
+                <a href="#skills" class="nav-link text-sm font-medium no-underline">Skills</a>
+                <a href="#projects" class="nav-link text-sm font-medium no-underline">Projects</a>
+                <a href="#services" class="nav-link text-sm font-medium no-underline">Services</a>
+                <a href="#contact" class="btn-primary btn-small">Let's Talk</a>
+            </div>
+            <button class="md:hidden text-white" id="menuBtn" aria-label="Menu">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center pt-16 grid-bg overflow-hidden">
+        <div class="hero-glow"></div>
+        <div class="hero-glow-2"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <div class="reveal">
+                        <span class="section-label mb-6 inline-flex">Available for projects</span>
+                    </div>
+                    <h1
+                        class="reveal reveal-delay-1 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] tracking-tight mb-6">
+                        I Build Modern<br>Websites That<br>
+                        <span class="gradient-text">Grow Your Business</span>
+                    </h1>
+                    <p
+                        class="reveal reveal-delay-2 text-base sm:text-lg text-neutral-400 leading-relaxed mb-10 max-w-lg">
+                        Freelance Web Developer specializing in fast, responsive, and user-friendly websites that turn
+                        visitors into paying customers.
+                    </p>
+                    <div class="reveal reveal-delay-3 flex flex-wrap gap-4 mb-12">
+                        <a href="#contact" class="btn-primary">
+                            Hire Me
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#projects" class="btn-secondary">
+                            View Projects
+                            <i data-lucide="eye" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                    <div class="reveal reveal-delay-4 flex items-center gap-8">
+                        <div>
+                            <p class="text-2xl font-bold">50+</p>
+                            <p class="text-xs text-neutral-500">Projects Done</p>
+                        </div>
+                        <div class="w-px h-10 bg-white/10"></div>
+                        <div>
+                            <p class="text-2xl font-bold">4+ yrs</p>
+                            <p class="text-xs text-neutral-500">Experience</p>
+                        </div>
+                        <div class="w-px h-10 bg-white/10"></div>
+                        <div>
+                            <p class="text-2xl font-bold">100%</p>
+                            <p class="text-xs text-neutral-500">Client Satisfaction</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Code editor mockup -->
+                <div class="reveal reveal-delay-3 hidden lg:block">
+                    <div class="relative">
+                        <div
+                            class="glass-strong rounded-2xl p-6 transform rotate-1 hover:rotate-0 transition-transform duration-700">
+                            <div class="flex items-center gap-2 mb-5">
+                                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                <span class="ml-3 text-xs text-neutral-600">portfolio.js</span>
+                            </div>
+                            <div class="code-block">
+                                <span class="comment">// Let's build something great</span><br>
+                                <span class="keyword">const</span> <span class="variable">developer</span> = <span
+                                    class="bracket">{</span><br>
+                                &nbsp;&nbsp;name: <span class="string">"SR Web Dev"</span>,<br>
+                                &nbsp;&nbsp;skills: [<span class="string">"React"</span>, <span
+                                    class="string">"Tailwind"</span>],<br>
+                                &nbsp;&nbsp;passion: <span class="string">"Clean Code"</span>,<br>
+                                &nbsp;&nbsp;<span class="function">create</span>: <span class="bracket">()</span> <span
+                                    class="keyword">=></span> <span class="bracket">{</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span
+                                    class="string">"Amazing Websites"</span>;<span class="cursor-blink"></span><br>
+                                &nbsp;&nbsp;<span class="bracket">}</span><br>
+                                <span class="bracket">}</span>;
+                            </div>
+                        </div>
+                        <div class="absolute -top-4 -right-4 glass rounded-xl px-4 py-3 flex items-center gap-2 animate-bounce"
+                            style="animation-duration: 3s;">
+                            <div class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i>
+                            </div>
+                            <span class="text-xs font-medium">Project Delivered</span>
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 glass rounded-xl px-4 py-3 flex items-center gap-2 animate-bounce"
+                            style="animation-duration: 4s; animation-delay: 1s;">
+                            <div class="w-8 h-8 rounded-lg bg-accent-600/20 flex items-center justify-center">
+                                <i data-lucide="star" class="w-4 h-4 text-accent-400"></i>
+                            </div>
+                            <span class="text-xs font-medium">5-Star Review</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 reveal reveal-delay-5">
+            <span class="text-[10px] uppercase tracking-widest text-neutral-600">Scroll</span>
+            <div class="w-5 h-8 rounded-full border border-white/10 flex items-start justify-center p-1">
+                <div class="w-1 h-2 rounded-full bg-accent-500 animate-bounce" style="animation-duration: 2s;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="relative py-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <div class="relative">
+                        <div class="w-full aspect-[4/5] rounded-3xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80" 
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-6 -right-6 glass-strong rounded-2xl p-6">
+                            <p class="text-3xl font-bold gradient-text">50+</p>
+                            <p class="text-sm text-neutral-400">Projects<br>Delivered</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span class="section-label reveal">About Us</span>
+                    <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl font-bold tracking-tight mt-4 mb-6">
+                        Building Digital Experiences That
+                        <span class="gradient-text"> Drive Results</span>
+                    </h2>
+                    <div class="section-divider reveal reveal-delay-1 mb-6"></div>
+                    <p class="reveal reveal-delay-2 text-neutral-400 leading-relaxed mb-5">
+                        We are a team of passionate designers and developers dedicated to creating websites that don't just look
+                        stunning — they deliver measurable results. Every project we undertake combines strategic thinking with
+                        creative execution to help your business stand out in the digital landscape.
+                    </p>
+                    <p class="reveal reveal-delay-3 text-neutral-400 leading-relaxed mb-8">
+                        With expertise spanning modern frontend technologies, UI/UX design, and digital strategy, we bridge the
+                        gap between aesthetics and functionality. Whether you need a high-converting landing page, a comprehensive
+                        business website, or a complex web application — our team delivers solutions that make a real impact on your bottom line.
+                    </p>
+                    <div class="reveal reveal-delay-4 grid grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-5 h-5 rounded-full bg-accent-600/20 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="check" class="w-3 h-3 text-accent-400"></i>
+                            </div>
+                            <span class="text-sm text-neutral-300">Clean Code</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-5 h-5 rounded-full bg-accent-600/20 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="check" class="w-3 h-3 text-accent-400"></i>
+                            </div>
+                            <span class="text-sm text-neutral-300">Fast Delivery</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-5 h-5 rounded-full bg-accent-600/20 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="check" class="w-3 h-3 text-accent-400"></i>
+                            </div>
+                            <span class="text-sm text-neutral-300">Responsive Design</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-5 h-5 rounded-full bg-accent-600/20 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="check" class="w-3 h-3 text-accent-400"></i>
+                            </div>
+                            <span class="text-sm text-neutral-300">SEO Optimized</span>
+                        </div>
+                    </div>
+                    <a href="#contact" class="reveal reveal-delay-5 btn-primary inline-flex">
+                        Work With Us
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="relative py-32 overflow-hidden">
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-accent-600/5 blur-[120px] pointer-events-none">
+        </div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <span class="section-label reveal justify-center">Skills</span>
+                <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl font-bold tracking-tight mt-4 mb-4">
+                    Technologies I <span class="gradient-text">Work With</span>
+                </h2>
+                <p class="reveal reveal-delay-2 text-neutral-400 max-w-xl mx-auto">
+                    I stay up-to-date with the latest tools and technologies to deliver modern, scalable solutions.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
+                <div class="skill-card reveal reveal-delay-1 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-orange-500/10 flex items-center justify-center">
+                        <i data-lucide="code-2" class="w-6 h-6 text-orange-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-sm mb-1">HTML5</h3>
+                    <p class="text-xs text-neutral-500">95%</p>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="max-width:95%;"></div>
+                    </div>
+                </div>
+                <div class="skill-card reveal reveal-delay-2 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                        <i data-lucide="palette" class="w-6 h-6 text-blue-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-sm mb-1">CSS3</h3>
+                    <p class="text-xs text-neutral-500">92%</p>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="max-width:92%;"></div>
+                    </div>
+                </div>
+                <div class="skill-card reveal reveal-delay-3 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-yellow-500/10 flex items-center justify-center">
+                        <i data-lucide="braces" class="w-6 h-6 text-yellow-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-sm mb-1">JavaScript</h3>
+                    <p class="text-xs text-neutral-500">90%</p>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="max-width:90%;"></div>
+                    </div>
+                </div>
+                <div class="skill-card reveal reveal-delay-4 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+                        <i data-lucide="atom" class="w-6 h-6 text-cyan-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-sm mb-1">React</h3>
+                    <p class="text-xs text-neutral-500">88%</p>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="max-width:88%;"></div>
+                    </div>
+                </div>
+                <div class="skill-card reveal reveal-delay-5 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-teal-500/10 flex items-center justify-center">
+                        <i data-lucide="wind" class="w-6 h-6 text-teal-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-sm mb-1">Tailwind CSS</h3>
+                    <p class="text-xs text-neutral-500">94%</p>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="max-width:94%;"></div>
+                    </div>
+                </div>
+                <div class="skill-card reveal reveal-delay-5 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                        <i data-lucide="layers" class="w-6 h-6 text-purple-400"></i>
+                    </div>
+                    <h3 class="font-semibold text-sm mb-1">Bootstrap</h3>
+                    <p class="text-xs text-neutral-500">85%</p>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="max-width:85%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="relative py-32 grid-bg">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="section-label reveal justify-center">Projects</span>
+                <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl font-bold tracking-tight mt-4 mb-4">
+                    Recent <span class="gradient-text">Work</span>
+                </h2>
+                <p class="reveal reveal-delay-2 text-neutral-400 max-w-xl mx-auto">
+                    A selection of projects that showcase my skills in design, development, and problem-solving.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+                <div class="project-card reveal reveal-delay-1">
+                    <div class="project-img relative">
+                        <img src="public/medical.png" alt="E-Commerce Platform">
+                        <div class="project-overlay"><a href="MedCare.html" target="_blank"
+                                class="btn-primary btn-small">View Live</a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-2">💊 Pharmacy Landing</h3>
+                        <p class="text-sm text-neutral-400 leading-relaxed mb-4">Help customers find medicines faster. A
+                            simple and trust-focused website for medical stores with clear categories, delivery info,
+                            and quick contact options.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Medicine
+                                categories layout</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Emergency
+                                contact & delivery info</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Clean,
+                                easy-to-read design</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal reveal-delay-2">
+                    <div class="project-img relative">
+                        <img src="public/resturent.png" alt="Analytics Dashboard">
+                        <div class="project-overlay"><a href="resturent.html" target="_blank"
+                                class="btn-primary btn-small">View
+                                Live</a></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-2">🍽️ Restaurant Landing</h3>
+                        <p class="text-sm text-neutral-400 leading-relaxed mb-4">Make customers hungry before they
+                            arrive. A visually rich landing page that showcases your menu, ambiance, and makes booking
+                            or contacting effortless.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Menu
+                                preview with images</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Location
+                                + WhatsApp/Call CTA</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Gallery
+                                to showcase vibe</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal reveal-delay-3">
+                    <div class="project-img relative">
+                        <img src="public/homeservice.png" alt="Restaurant Website">
+                        <div class="project-overlay"><a href="localservice.html" target="_blank"
+                                class="btn-primary btn-small">View
+                                Live</a></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-2">🧰 Home Services Landing</h3>
+                        <p class="text-sm text-neutral-400 leading-relaxed mb-4">Get more calls from local customers.
+                            Perfect for electricians, plumbers, and repair services to clearly show what they offer and
+                            get instant calls.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Service
+                                list with icons</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">"Call
+                                Now" sticky button</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Trust-focused
+                                simple layout</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal reveal-delay-1">
+                    <div class="project-img relative">
+                        <img src="public/parlour.png" alt="Travel Agency">
+                        <div class="project-overlay"><a href="parlour.html" target="_blank"
+                                class="btn-primary btn-small">View Live</a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-2">💇 Salon Landing</h3>
+                        <p class="text-sm text-neutral-400 leading-relaxed mb-4">Turn visitors into booked appointments.
+                            A stylish landing page that highlights your services, pricing, and makes booking super easy.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Services
+                                + pricing section</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Before/after
+                                or gallery showcase</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Quick
+                                booking CTA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal reveal-delay-2">
+                    <div class="project-img relative">
+                        <img src="public/gym.png" alt="Fitness App">
+                        <div class="project-overlay"><a href="gym.html" target="_blank"
+                                class="btn-primary btn-small">View Live</a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-2">🏋️ Gym Landing</h3>
+                        <p class="text-sm text-neutral-400 leading-relaxed mb-4">Convert visitors into members. A
+                            high-energy landing page designed to showcase plans, trainers, and push users to join
+                            instantly.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Membership
+                                plans section</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Trainer
+                                highlights</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Strong
+                                CTA sections</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal reveal-delay-3">
+                    <div class="project-img relative">
+                        <img src="public/education.png" alt="SaaS Landing">
+                        <div class="project-overlay"><a href="education.html" target="_blank"
+                                class="btn-primary btn-small">View
+                                Live</a></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-2">🎓 Coaching Center Landing</h3>
+                        <p class="text-sm text-neutral-400 leading-relaxed mb-4">Get more student enrollments. A
+                            structured landing page for tuition centers to showcase courses, results, and build parent
+                            trust.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Course
+                                & subject sections</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Results/testimonials</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Enquiry
+                                form</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal reveal-delay-1">
+                    <div class="project-img relative">
+                        <img src="public/estate.png" alt="Real Estate Landing">
+                        <div class="project-overlay"><a href="estate.html" target="_blank"
+                                class="btn-primary btn-small">View Live</a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-2">🏠 Real Estate Landing</h3>
+                        <p class="text-sm text-neutral-400 leading-relaxed mb-4">Capture leads before they scroll away.
+                            A clean landing page to showcase properties and collect serious buyer enquiries.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Property
+                                highlights</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Contact/lead
+                                form</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Location
+                                & details section</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal reveal-delay-2">
+                    <div class="project-img relative">
+                        <img src="public/construction.png" alt="Construction Landing">
+                        <div class="project-overlay"><a href="construction.html" target="_blank"
+                                class="btn-primary btn-small">View
+                                Live</a></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-2">🛠️ Construction Landing</h3>
+                        <p class="text-sm text-neutral-400 leading-relaxed mb-4">Show credibility and win bigger
+                            projects. A professional landing page to showcase past work, services, and build trust with
+                            clients.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Project
+                                showcase</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Services
+                                breakdown</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Quote
+                                request CTA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal reveal-delay-3">
+                    <div class="project-img relative">
+                        <img src="public/petgrooming.png" alt="Pet Care Landing">
+                        <div class="project-overlay"><a href="petgrooming.html" target="_blank"
+                                class="btn-primary btn-small">View Live</a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-2">🐾 Pet Care / Grooming</h3>
+                        <p class="text-sm text-neutral-400 leading-relaxed mb-4">Win trust from pet owners instantly. A
+                            friendly landing page to showcase services, care quality, and happy pet photos.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Services
+                                & pricing</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Pet
+                                gallery</span>
+                            <span
+                                class="text-[11px] font-medium px-3 py-1 rounded-full bg-accent-600/10 text-accent-400">Appointment
+                                CTA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="relative py-32 overflow-hidden">
+        <div
+            class="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-accent-600/5 blur-[120px] pointer-events-none">
+        </div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <span class="section-label reveal justify-center">Services</span>
+                <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl font-bold tracking-tight mt-4 mb-4">
+                    What I <span class="gradient-text">Offer</span>
+                </h2>
+                <p class="reveal reveal-delay-2 text-neutral-400 max-w-xl mx-auto">
+                    Focused services designed to give your business a powerful online presence.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-7">
+                <div class="service-card reveal reveal-delay-1">
+                    <div class="service-icon"><i data-lucide="code" class="w-6 h-6 text-accent-400"></i></div>
+                    <h3 class="text-xl font-semibold mb-3">Website Development</h3>
+                    <p class="text-sm text-neutral-400 leading-relaxed mb-6">Custom-built websites from scratch using
+                        modern technologies. Clean code, fast load times, and built to scale with your business.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-sm text-neutral-300"><i data-lucide="check-circle-2"
+                                class="w-4 h-4 text-accent-500 flex-shrink-0"></i>Custom & Template-Based</li>
+                        <li class="flex items-center gap-2 text-sm text-neutral-300"><i data-lucide="check-circle-2"
+                                class="w-4 h-4 text-accent-500 flex-shrink-0"></i>Mobile-First Approach</li>
+                        <li class="flex items-center gap-2 text-sm text-neutral-300"><i data-lucide="check-circle-2"
+                                class="w-4 h-4 text-accent-500 flex-shrink-0"></i>Cross-Browser Compatible</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal reveal-delay-2">
+                    <div class="service-icon"><i data-lucide="pencil-ruler" class="w-6 h-6 text-accent-400"></i></div>
+                    <h3 class="text-xl font-semibold mb-3">UI/UX Design</h3>
+                    <p class="text-sm text-neutral-400 leading-relaxed mb-6">Intuitive, visually appealing designs that
+                        guide users naturally toward your conversion goals. Every detail matters.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-sm text-neutral-300"><i data-lucide="check-circle-2"
+                                class="w-4 h-4 text-accent-500 flex-shrink-0"></i>User Research & Wireframes</li>
+                        <li class="flex items-center gap-2 text-sm text-neutral-300"><i data-lucide="check-circle-2"
+                                class="w-4 h-4 text-accent-500 flex-shrink-0"></i>Interactive Prototypes</li>
+                        <li class="flex items-center gap-2 text-sm text-neutral-300"><i data-lucide="check-circle-2"
+                                class="w-4 h-4 text-accent-500 flex-shrink-0"></i>Design System Creation</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal reveal-delay-3">
+                    <div class="service-icon"><i data-lucide="zap" class="w-6 h-6 text-accent-400"></i></div>
+                    <h3 class="text-xl font-semibold mb-3">Website Optimization</h3>
+                    <p class="text-sm text-neutral-400 leading-relaxed mb-6">Speed up your existing website, improve SEO
+                        rankings, and enhance user experience to maximize conversions.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-sm text-neutral-300"><i data-lucide="check-circle-2"
+                                class="w-4 h-4 text-accent-500 flex-shrink-0"></i>Performance Auditing</li>
+                        <li class="flex items-center gap-2 text-sm text-neutral-300"><i data-lucide="check-circle-2"
+                                class="w-4 h-4 text-accent-500 flex-shrink-0"></i>SEO Best Practices</li>
+                        <li class="flex items-center gap-2 text-sm text-neutral-300"><i data-lucide="check-circle-2"
+                                class="w-4 h-4 text-accent-500 flex-shrink-0"></i>Core Web Vitals Fix</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="section-label reveal justify-center">Testimonials</span>
+                <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl font-bold tracking-tight mt-4 mb-4">
+                    What Clients <span class="gradient-text">Say</span>
+                </h2>
+                <p class="reveal reveal-delay-2 text-neutral-400 max-w-xl mx-auto">
+                    Don't just take my word for it — here's what people I've worked with have to say.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-7">
+                <div class="testimonial-card reveal reveal-delay-1">
+                    <div class="flex gap-1 mb-5">
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                    </div>
+                    <p class="text-sm text-neutral-300 leading-relaxed mb-6">"Alex completely transformed our online
+                        presence. The website he built loads incredibly fast and our conversion rate doubled within the
+                        first month. Highly recommend!"</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/sarahceo/80/80.jpg" alt="Sarah Johnson"
+                            class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <p class="text-sm font-semibold">Sarah Johnson</p>
+                            <p class="text-xs text-neutral-500">CEO, Bloom Studio</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal reveal-delay-2">
+                    <div class="flex gap-1 mb-5">
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                    </div>
+                    <p class="text-sm text-neutral-300 leading-relaxed mb-6">"Working with Alex was a breeze. He
+                        understood our vision perfectly and delivered a website that exceeded expectations.
+                        Communication was top-notch throughout."</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/markfounder/80/80.jpg" alt="Mark Rivera"
+                            class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <p class="text-sm font-semibold">Mark Rivera</p>
+                            <p class="text-xs text-neutral-500">Founder, TechNova</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal reveal-delay-3">
+                    <div class="flex gap-1 mb-5">
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+                    </div>
+                    <p class="text-sm text-neutral-300 leading-relaxed mb-6">"The speed optimization Alex did on our
+                        existing site was incredible. Page load time dropped from 6 seconds to under 2. Our bounce rate
+                        improved significantly."</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/emilymanager/80/80.jpg" alt="Emily Chen"
+                            class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <p class="text-sm font-semibold">Emily Chen</p>
+                            <p class="text-xs text-neutral-500">Marketing Manager, UrbanEats</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> 
+
+    <!-- Contact Section -->
+    <section id="contact" class="relative py-32 overflow-hidden">
+        <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-accent-600/5 blur-[120px] pointer-events-none">
+        </div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div>
+                    <span class="section-label reveal">Contact</span>
+                    <h2 class="reveal reveal-delay-1 text-3xl sm:text-4xl font-bold tracking-tight mt-4 mb-4">
+                        Let's Build Something
+                        <span class="gradient-text"> Great Together</span>
+                    </h2>
+                    <div class="section-divider reveal reveal-delay-1 mb-6"></div>
+                    <p class="reveal reveal-delay-2 text-neutral-400 leading-relaxed mb-10 max-w-md">
+                        Have a project in mind? I'd love to hear about it. Fill out the form or reach out through any of
+                        the channels below.
+                    </p>
+                    <div class="reveal reveal-delay-3 space-y-5">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="mail" class="w-5 h-5 text-accent-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-neutral-500 mb-0.5">Email</p>
+                                <p class="text-sm font-medium">hello@srwebdev.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-accent-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-neutral-500 mb-0.5">Location</p>
+                                <p class="text-sm font-medium">San Francisco, CA (Remote OK)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="clock" class="w-5 h-5 text-accent-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-neutral-500 mb-0.5">Response Time</p>
+                                <p class="text-sm font-medium">Within 24 hours</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reveal reveal-delay-4 flex items-center gap-3 mt-10">
+                        <a href="https://linkedin.com/in/yourprofile"
+                            class="w-11 h-11 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center text-neutral-400 hover:text-white hover:border-accent-600/30 hover:bg-accent-600/10 transition-all duration-300"
+                            aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd"
+                                    d="M12.51 8.796v1.697a3.738 3.738 0 0 1 3.288-1.684c3.455 0 4.202 2.16 4.202 4.97V19.5h-3.2v-5.072c0-1.21-.244-2.766-2.128-2.766-1.827 0-2.139 1.317-2.139 2.676V19.5h-3.19V8.796h3.168ZM7.2 6.105a2.004 2.004 0 0 1-2-2.004c0-1.103.896-2.004 2-2.004s2 .9 2 2.004a2.004 2.004 0 0 1-2 2.004Zm-1.998 1.699h3.2v9.396h-3.2V7.804Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="https://github.com/yourusername"
+                            class="w-11 h-11 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center text-neutral-400 hover:text-white hover:border-accent-600/30 hover:bg-accent-600/10 transition-all duration-300"
+                            aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+                            <svg height="25" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="25"
+                                data-view-component="true" fill="currentColor">
+                                <path
+                                    d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com/yourusername"
+                            class="w-11 h-11 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center text-neutral-400 hover:text-white hover:border-accent-600/30 hover:bg-accent-600/10 transition-all duration-300"
+                            aria-label="Twitter" target="_blank" rel="noopener noreferrer">
+                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="reveal reveal-delay-2">
+                    <form id="contactForm" class="glass-strong rounded-3xl p-8 sm:p-10 space-y-5">
+                        <div>
+                            <label
+                                class="block text-xs font-medium text-neutral-400 mb-2 uppercase tracking-wider">Name</label>
+                            <input type="text" class="form-input" placeholder="John Doe" required>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-medium text-neutral-400 mb-2 uppercase tracking-wider">Email</label>
+                            <input type="email" class="form-input" placeholder="john@example.com" required>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-medium text-neutral-400 mb-2 uppercase tracking-wider">Project
+                                Budget</label>
+                            <select class="form-input" style="appearance:none;cursor:pointer;" title="Select a service">
+                                <option value="" style="background:#111;">Select a range</option>
+                                <option value="1k-3k" style="background:#111;">₹1,000 - ₹3,000</option>
+                                <option value="3k-5k" style="background:#111;">₹3,000 - ₹5,000</option>
+                                <option value="5k-10k" style="background:#111;">₹5,000 - ₹10,000</option>
+                                <option value="10k+" style="background:#111;">₹10,000+</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-medium text-neutral-400 mb-2 uppercase tracking-wider">Message</label>
+                            <textarea class="form-input" placeholder="Tell me about your project..."
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full justify-center">
+                            Send Message
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                        </button>
+                        <p class="text-[11px] text-neutral-600 text-center">I'll get back to you within 24 hours. No
+                            spam, ever.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <a href="#home" class="flex items-center gap-3 no-underline">
+                    <img src="https://z-cdn-media.chatglm.cn/files/907fa9b6-c90a-4d7c-9d67-8e186ad26c42.jpg?auth_key=1875031917-2b9c03c9f8bd40379a972896f199983d-0-d8cd0a5b5e8e80fd295379fb17619833"
+                        alt="SR Web Developer" class="logo-dark h-12 w-auto object-contain">
+                    <span class="text-sm text-neutral-500">© 2026 SR Web Developer. All rights reserved.</span>
+                </a>
+                <div class="flex items-center gap-6">
+                    <a href="#home"
+                        class="text-xs text-neutral-500 hover:text-white transition-colors no-underline">Home</a>
+                    <a href="#about"
+                        class="text-xs text-neutral-500 hover:text-white transition-colors no-underline">About</a>
+                    <a href="#projects"
+                        class="text-xs text-neutral-500 hover:text-white transition-colors no-underline">Projects</a>
+                    <a href="#services"
+                        class="text-xs text-neutral-500 hover:text-white transition-colors no-underline">Services</a>
+                    <a href="#contact"
+                        class="text-xs text-neutral-500 hover:text-white transition-colors no-underline">Contact</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="https://linkedin.com/in/yourprofile"
+                        class="text-neutral-600 hover:text-white transition-colors" aria-label="LinkedIn"
+                        target="_blank" rel="noopener noreferrer">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M12.51 8.796v1.697a3.738 3.738 0 0 1 3.288-1.684c3.455 0 4.202 2.16 4.202 4.97V19.5h-3.2v-5.072c0-1.21-.244-2.766-2.128-2.766-1.827 0-2.139 1.317-2.139 2.676V19.5h-3.19V8.796h3.168ZM7.2 6.105a2.004 2.004 0 0 1-2-2.004c0-1.103.896-2.004 2-2.004s2 .9 2 2.004a2.004 2.004 0 0 1-2 2.004Zm-1.998 1.699h3.2v9.396h-3.2V7.804Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="https://github.com/yourusername"
+                        class="text-neutral-600 hover:text-white transition-colors" aria-label="GitHub" target="_blank"
+                        rel="noopener noreferrer">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com/yourusername"
+                        class="text-neutral-600 hover:text-white transition-colors" aria-label="Twitter" target="_blank"
+                        rel="noopener noreferrer">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i data-lucide="check-circle" class="w-5 h-5"></i>
+        <span>Message sent successfully!</span>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => document.getElementById('loader').classList.add('hidden'), 1400);
+        });
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Active nav link
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+            navLinks.forEach(l => {
+                l.classList.toggle('active', l.getAttribute('href') === `#${current}`);
+            });
+        });
+
+        // Mobile menu
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        let menuOpen = false;
+        menuBtn.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            menuOpen ? (mobileMenu.classList.add('open'), document.body.style.overflow = 'hidden') : closeMobileMenu();
+        });
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('open');
+            document.body.style.overflow = '';
+            menuOpen = false;
+        }
+
+        // Scroll reveal
+        const revealObs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+        // Skill progress
+        const skillObs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.skill-card').forEach(c => skillObs.observe(c));
+
+        // Contact form
+        const contactForm = document.getElementById('contactForm');
+        const toast = document.getElementById('toast');
+        contactForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const btn = contactForm.querySelector('button[type="submit"]');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<span class="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Sending...';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.innerHTML = orig; btn.disabled = false;
+                contactForm.reset();
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3500);
+                lucide.createIcons();
+            }, 1500);
+        });
+
+        // Particles
+        const pc = document.getElementById('particles');
+        function createParticle() {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            const s = Math.random() * 4 + 2, l = Math.random() * 100, d = Math.random() * 15 + 10, dl = Math.random() * 5;
+            p.style.cssText = `width:${s}px;height:${s}px;left:${l}%;bottom:-10px;animation-duration:${d}s;animation-delay:${dl}s`;
+            pc.appendChild(p);
+            setTimeout(() => p.remove(), (d + dl) * 1000);
+        }
+        for (let i = 0; i < 15; i++) createParticle();
+        setInterval(createParticle, 2000);
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function (e) {
+                e.preventDefault();
+                const t = document.querySelector(this.getAttribute('href'));
+                if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+
+</html>
